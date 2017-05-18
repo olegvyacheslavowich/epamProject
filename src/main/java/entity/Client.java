@@ -1,82 +1,66 @@
 package entity;
 
+import java.sql.Date;
+
 /**
- * Created by 20_ok on 21.03.2017.
+ * Created by 20_ok on 15.05.2017.
  */
 public class Client {
 
-    private String login;
-    private String password;
-    private String name;
-    private String surname;
-    private String patronymic;
-    private String year;
-    private String city;
-    private String mobile;
+    private int id;
+    private String fullName;
+    private String paper;
+    private long documentNum;
+    private String phone;
+    private Date birthday;
     private String email;
 
-    public String getLogin() {
-        return login;
+    public int getId() {
+        return id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getName() {
-        return name;
+    public String getPaper() {
+        return paper;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPaper(String paper) {
+        this.paper = paper;
     }
 
-    public String getSurname() {
-        return surname;
+    public long getDocumentNum() {
+        return documentNum;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setDocumentNum(int documentNum) {
+        this.documentNum = documentNum;
     }
 
-    public String getPatronymic() {
-        return patronymic;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getYear() {
-        return year;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getEmail() {

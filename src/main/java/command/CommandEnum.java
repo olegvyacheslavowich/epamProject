@@ -1,10 +1,13 @@
 package command;
 
-import command.impl.LoginCommand;
-import command.impl.RegistrationCommand;
+import command.impl.*;
 
 /**
  * Created by 20_ok on 20.03.2017.
+ */
+
+/**
+ * Класс с  формируемыми страницами
  */
 public enum CommandEnum {
 
@@ -17,6 +20,71 @@ public enum CommandEnum {
     LOGIN {
         {
             command = new LoginCommand();
+        }
+    },
+
+    LOGOUT {
+        {
+            command = new LogoutCommand();
+        }
+    },
+
+    TRANSLATOR {
+        {
+            command = new TranslatorCommand();
+        }
+    },
+
+    SEARCH {
+        {
+            command = new SearchCommand();
+        }
+    },
+
+    TOURS {
+        {
+            command = new ToursCommand();
+        }
+    },
+
+    PLAINS {
+        {
+            command = new FlightCommand();
+        }
+    },
+
+    FLIGHT {
+        {
+            command = new FlightCommand();
+        }
+    },
+
+    TOURSSORTING {
+        {
+            command = new ToursSortingCommand();
+        }
+    },
+
+    PAYMENT {
+        {
+            command = new PaymentCommand();
+        }
+    },
+
+    USER {
+        {
+            command = new UserCommand();
+        }
+    },
+    REFUSE {
+        {
+            command = new RefuseCommand();
+        }
+    },
+
+    CARD {
+        {
+            command = new CardCommand();
         }
     };
 

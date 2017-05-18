@@ -1,0 +1,88 @@
+aside {
+     background:rgba(245,245,220,0.45);
+     width:27%;
+     height:30%;
+	 border: solid 1px #B5B8B1;
+     position:relative;
+     top:30%;
+	 left:35%;
+	 right: 35%;
+	 border-radius: 40px;
+	 -webkit-box-shadow: 13px 12px 21px 7px #000000;
+	 -moz-box-shadow: 13px 12px 21px 7px #000000;
+	 -o-box-shadow: 13px 12px 21px 7px #000000;
+	box-shadow: 13px 12px 21px 7px #000000
+}
+
+.login2{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 23%;
+	left:19%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.password2{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 49%;
+	left:19%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.login3{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 22%;
+	left:35%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.password3{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 48%;
+	left:35%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+
+.enter {
+    cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:13%;
+	width: 16%;
+	position:absolute;
+	top:75%;
+	left:27%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:80%
+}
+.enter:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}
+
+.forget {
+    cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:13%;
+	width: 29%;
+	position:absolute;
+	top:75%;
+	left:45%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:80%
+}
+.forget:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}

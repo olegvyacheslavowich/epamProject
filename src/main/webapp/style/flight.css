@@ -1,0 +1,106 @@
+ .first{
+     background:rgba(245,245,220,0.45);
+     width:30%;
+     height:26%;
+	 border: solid 1px #B5B8B1;
+     position:absolute;
+     top:7%;
+	 left:18%;
+	 border-radius: 40px;
+	 -webkit-box-shadow: 13px 12px 21px 7px #000000;
+	 -moz-box-shadow: 13px 12px 21px 7px #000000;
+	 -o-box-shadow: 13px 12px 21px 7px #000000;
+	box-shadow: 13px 12px 21px 7px #000000;
+	}
+	
+.second{
+     background:rgba(245,245,220,0.45);
+      width:30%;
+     height:26%;
+	 border: solid 1px #B5B8B1;
+     position:absolute;
+     top:7%;
+	right:18%;
+	 border-radius: 40px;
+	 -webkit-box-shadow: 13px 12px 21px 7px #000000;
+	 -moz-box-shadow: 13px 12px 21px 7px #000000;
+	 -o-box-shadow: 13px 12px 21px 7px #000000;
+	box-shadow: 13px 12px 21px 7px #000000;
+	}
+	
+.table2 {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #D8D6C1;
+    color: #656665;
+    border: 16px solid #D8D6C1;
+    border-radius: 20px;
+    width: 95.5%;
+    position: absolute;
+    top: 39%;
+    left: 2.5%;
+    right: 2.5%;
+    opacity: 0.89;
+    -webkit-box-shadow: 13px 12px 21px 7px #000000;
+    -moz-box-shadow: 13px 12px 21px 7px #000000;
+    -o-box-shadow: 13px 12px 21px 7px #000000;
+    box-shadow: 13px 12px 21px 7px #000000;
+}
+
+th {
+    font-size: 14px;
+    padding: 3px;
+}
+
+td {
+    background: #F5D7BF;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.to{
+	color:#4F4D56;
+	font-size:95%;
+	position: absolute;
+	top: 12%;
+	left:11%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.from{
+	color:#4F4D56;
+	font-size:95%;
+	position: absolute;
+	top: 12%;
+	left:11%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.paper{
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+input{
+	font-family: Trebuchet MS, sans-serif;
+}
+
+
+.choose2 {
+    cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:6%;
+	width: 11%;
+	position:absolute;
+	top:86.5%;
+	left:44%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:85%
+}
+.choose2:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}

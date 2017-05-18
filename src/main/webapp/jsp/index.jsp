@@ -1,20 +1,71 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"
          isELIgnored="false"
 %>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<html>
-<body>
-MainForm <br/>
-<a href="/jsp/login.jsp">Log in</a> <br/>
-<a href="/jsp/registration.jsp">Registration</a> <br/>
-<form action="/servlet" method="POST">
-    <input type="hidden" name="command" value="lang">
-    <input type="submit" name="/jsp/index.jsp" value="Русский">
-    <input type="submit" name="/jsp/index.jsp" value="English">
-</form>
-${login} <br/>
-${password}
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="/WEB-INF/tld/localization.tld" prefix="l" %>
 
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/style/index.css"/>"/>
+</head>
+<body>
+<jsp:include page="header.jsp"/>
+
+<aside>
+    <form name="search" method="post" action="/servlet">
+        <input type="hidden" name="command" value="search">
+
+        <label class="cityname1"> Вылет из: </label>
+        <input type="text" class="cityname2" name="departureCity" value="">
+
+        <label class="countries">Страна </label>
+
+        <select name="country" class="countries1">
+            <option value="Любая"><l:localization key="country.any_country"/></option>
+            <option value="Турция">Турция</option>
+            <option value="Россия">Россия</option>
+            <option value="Казахстан">Казахстан</option>
+            <option value="Украина">Украина</option>
+            <option value="Германия">Германия</option>
+        </select>
+
+        <label class="hotelClass">Класс отеля </label>
+        <select name="hotelStars" class="hotelClass1">
+            <option value="0"><l:localization key="hotel.any_class"/></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <label class="date5">Дата: </label>
+        <input type="date" class="date6" name="date" value="">
+
+        <label class="tourisrs">Туристы </label>
+        <label class="adult">Взрослых: </label>
+        <select name="adultNumber" class="adult1">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <label class="children"> Детей до 5 лет: </label>
+        <select name="childrenNumber" class="children1">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <input type="submit" class="search" name="search" value="Найти">
+    </form>
+
+</aside>
 </body>
 </html>

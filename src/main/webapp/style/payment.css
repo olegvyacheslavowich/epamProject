@@ -1,0 +1,85 @@
+aside {
+     background:rgba(245,245,220,0.45);
+     width:39%;
+     height:35%;
+	 border: solid 1px #B5B8B1;
+     position:relative;
+     top:26%;
+	 left:30.5%;
+	 right: 30.5%;
+	 border-radius: 40px;
+	 -webkit-box-shadow: 13px 12px 21px 7px #000000;
+	 -moz-box-shadow: 13px 12px 21px 7px #000000;
+	 -o-box-shadow: 13px 12px 21px 7px #000000;
+	box-shadow: 13px 12px 21px 7px #000000;
+}
+
+
+.text1{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 15%;
+	left:10%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.text2{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 31%;
+	left:10%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.text3{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 47%;
+	left:10%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.text4{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 63%;
+	left:10%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.money{
+   background: #FFFAFA;
+   width: 70%;
+   height: 12%;
+   padding: 5px;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   color: #7A7A7A;
+   position: absolute;
+   top:60.5%;
+   left:25%;
+}
+
+
+
+.choose9 {
+    cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:13%;
+	width: 16%;
+	position:absolute;
+	top:81%;
+	left:43%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:90%
+}
+.choose9:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}

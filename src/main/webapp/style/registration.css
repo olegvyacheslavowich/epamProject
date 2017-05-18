@@ -1,0 +1,248 @@
+aside {
+     background:rgba(245,245,220,0.45);
+     width:50%;
+     height:90%;
+	 border: solid 1px #B5B8B1;
+     position:relative;
+     top:3%;
+	 left:25%;
+	 right: 25%; 
+	 border-radius: 40px;
+	 -webkit-box-shadow: 13px 12px 21px 7px #000000;
+	 -moz-box-shadow: 13px 12px 21px 7px #000000;
+	 -o-box-shadow: 13px 12px 21px 7px #000000;
+	box-shadow: 13px 12px 21px 7px #000000
+	
+}
+.login5{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 4.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+
+.login6{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position:absolute;
+     top:3.5%;
+     left:33%;
+}
+
+.name{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top:12.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.name1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position:absolute;
+     top:11.5%;
+     left:33%;
+}
+
+
+.surname{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 20.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.surname1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position:absolute;
+     top:19.5%;
+     left:33%;
+}
+
+.patronymic{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 28.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.patronymic1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position:absolute;
+     top:27.5%;
+     left:33%;
+}
+
+.year{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 36.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.year1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 5px;
+     font-size: 90%;
+     border: 1px solid #ccc;
+   	 position: absolute;
+     top:35.5%;
+     left:33%;
+     color: #7A7A7A;
+}
+
+.city{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 44.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+
+.city1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position:absolute;
+     top:43.5%;
+     left:33%;
+}
+
+.mobile{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 52.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.mobile1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position:absolute;
+     top:51.5%;
+     left:33%;
+}
+
+.email{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 60.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.email1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position: absolute;
+     top:59.5%;
+     left:33%;
+}
+
+.pass{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 68.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.pass1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position: absolute;
+     top:67.5%;
+     left:33%;
+}
+
+.rpassword{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 76.5%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.rpassword1{
+	 background: #FFFAFA;
+     width: 52%;
+     height: 5%;
+     padding: 1%;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     position:absolute;
+     top:75.5%;
+     left:33%;
+
+}
+
+.regist {
+    cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:7%;
+	width: 14%;
+	position:absolute;
+	top:87%;
+	left:41%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:90%
+}
+.regist:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}

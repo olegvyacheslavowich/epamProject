@@ -5,6 +5,10 @@ package exception;
  */
 public class ExistingAccountException extends Exception {
 
+
+    public ExistingAccountException() {
+    }
+
     public ExistingAccountException(String message) {
         super(message);
     }

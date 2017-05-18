@@ -1,0 +1,97 @@
+body {
+	min-height:100%;
+	background-color: #F5F5DC;
+	background: url('3.jpg') no-repeat;
+	-webkit-background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	background-size: 100% 100%;
+	margin:0;
+}
+
+header {
+	 background:#F5F5DC;
+     width:100%;
+     height:4%;
+     position:relative;
+	 opacity: 0.8;
+	 
+}
+.RU{
+	border:none;
+background:no-repeat left top url(5.png);
+width:1.8%;
+height: 75%;
+position:relative;
+top:7%;
+left:1%;
+}
+
+.ENG{
+	border:none;
+background:no-repeat left top url(6.png);
+width:1.8%;
+height: 75%;
+position:relative;
+top:7%;
+left:1.6%;
+}
+
+.exit{
+	cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:80%;
+	width: 4.5%;
+	position:absolute;
+	top:10%;
+	left:93.2%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:80%;
+	
+}
+
+.exit:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}
+
+.login{
+  text-decoration: none;
+  color: #4F4D56;
+  position:absolute;
+	top:10%;
+	left:88.5%;
+   font-family: Trebuchet MS, sans-serif;
+font-size:90%;
+}
+
+.registration{
+	text-decoration: none;
+  color: #4F4D56;
+  position:absolute;
+	top:10%;
+	left:92.3%;
+font-family: Trebuchet MS, sans-serif;
+font-size:90%;
+}
+
+.hello{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top:15%;
+	right:12%;
+	font-family: Trebuchet MS, sans-serif;
+}
+.error{
+	color: #CE0D03;
+	font-size:92%;
+	position: absolute;
+	top: 10%;
+	left:38%;
+	right:39%;
+	font-family: Trebuchet MS, sans-serif;
+	text-shadow: 0 0 5px #fff;
+}

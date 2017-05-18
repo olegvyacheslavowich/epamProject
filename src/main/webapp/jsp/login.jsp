@@ -1,27 +1,34 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"
+         isELIgnored="false"
+%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="/WEB-INF/tld/localization.tld" prefix="l" %>
 <html>
 <head>
-    <title>${title_login}</title>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/style/login.css"/>"/>
 </head>
 <body>
 
-<form name="login" method="POST" action="/servlet">
-    <input type="hidden" name="command" value="login"/>
-    Login <br/>
-    <input type="text" name="login" value=""/> <br/>
-    Password <br/>
-    <input type="password" name="password" value=""/> <br/>
-    <input type="submit" value="${submit_login}"/>
-</form>
+<jsp:include page="header.jsp"/>
 
-<form name="login" method="GET" action="/servlet">
-    <input type="hidden" name="command" value="/jsp/login.jsp"/>
-    <input type="submit" name="lang" value="Русский"/>
-    <input type="submit" name="lang" value="English"/>
-</form>
+<aside>
+    <c:if test="${user eq null}">
+        <form name="login" method="POST" action="/servlet">
+            <input type="hidden" name="command" value="login"/>
 
+            <label class="login2"> <l:localization key="label.login"/></label>
+            <input type="text" class="login3" name="login" value=""/>
 
-${incorrectLoginOrPassword}
+            <label class="password2"><l:localization key="label.password"/></label>
+            <input type="password" class="password3" name="password" value=""/>
+
+            <input type="submit" class="enter" value="Вход"/>
+        </form>
+    </c:if>
+
+</aside>
 
 </body>
 </html>

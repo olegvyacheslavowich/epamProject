@@ -3,13 +3,17 @@ package constant;
 /**
  * Created by 20_ok on 22.03.2017.
  */
-public enum Pages {
+public enum Page {
 
     INDEX ("/jsp/index.jsp"),
     LOGIN ("/jsp/login.jsp"),
-    REGISTRATION("/jsp/registration.jsp");
+    REGISTRATION("/jsp/registration.jsp"),
+    TOURS("/jsp/tours.jsp"),
+    FLIGHT("/jsp/flight.jsp"),
+    PAYMENT("/jsp/payment.jsp"),
+    USER ("/jsp/user.jsp");
 
-    Pages(String page) {
+    Page(String page) {
         this.page = page;
     }
 

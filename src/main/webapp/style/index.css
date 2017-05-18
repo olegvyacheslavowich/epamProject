@@ -1,0 +1,174 @@
+aside {
+     background:rgba(245,245,220,0.45);
+     width:35%;
+     height:65%;
+	 border: solid 1px #B5B8B1;
+     position:relative;
+     top:12%;
+	 left:32.5%;
+	 right: 32.5%;
+	 border-radius: 40px;
+	 -webkit-box-shadow: 13px 12px 21px 7px #000000;
+	 -moz-box-shadow: 13px 12px 21px 7px #000000;
+	 -o-box-shadow: 13px 12px 21px 7px #000000;
+	box-shadow: 13px 12px 21px 7px #000000;
+}
+
+.cityname1{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 11%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.cityname2{
+   background: #FFFAFA;
+   width: 38%;
+   height: 7%;
+   padding: 1%;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   position: absolute;
+   top:9.5%;
+   left:42.5%;
+}
+
+.countries{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top:21%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.countries1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 7.5%;
+   padding: 5px;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   color: #7A7A7A;
+   position: absolute;
+   top:19%;
+   left:42.5%;
+}
+
+.hotelClass{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 31%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.hotelClass1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 7.5%;
+   padding: 5px;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   color: #7A7A7A;
+   position: absolute;
+   top:28.5%;
+   left:42.5%;
+}
+
+.date5{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 41%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.date6{
+   background: #FFFAFA;
+   width: 38%;
+   height: 7.5%;
+   padding: 1%;
+   font-size: 100%;
+   border: 1px solid #ccc;
+   position: absolute;
+   top:38%;
+   left:42.5%;
+}
+
+
+.tourisrs{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 50%;
+	left:42%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.adult{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 60%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.adult1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 7.5%;
+   padding: 5px;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   color: #7A7A7A;
+   position: absolute;
+   top:58%;
+   left:42.5%;
+}
+
+.children{
+	color:#4F4D56;
+	font-size:92%;
+	position: absolute;
+	top: 70%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.children1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 7.5%;
+   padding: 5px;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   color: #7A7A7A;
+   position: absolute;
+   top:67.5%;
+   left:42.5%;
+}
+
+.search {
+    cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:9.5%;
+	width: 15.5%;
+	position:absolute;
+	top:81%;
+	left:42.5%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:90%
+}
+.search:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}
+
