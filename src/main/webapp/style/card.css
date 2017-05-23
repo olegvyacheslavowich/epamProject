@@ -1,0 +1,142 @@
+aside {
+     background:rgba(245,245,220,0.45);
+     width:35%;
+     height:50%;
+	 border: solid 1px #B5B8B1;
+     position:relative;
+     top:18%;
+	 left:32.5%;
+	 right: 32.5%;
+	 border-radius: 40px;
+	 -webkit-box-shadow: 13px 12px 21px 7px #000000;
+	 -moz-box-shadow: 13px 12px 21px 7px #000000;
+	 -o-box-shadow: 13px 12px 21px 7px #000000;
+	box-shadow: 13px 12px 21px 7px #000000;
+}
+
+.owner{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 11%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.owner1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 9%;
+   padding: 1%;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   position: absolute;
+   top:9.5%;
+   left:42.5%;
+}
+
+.number{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top:25.5%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.number1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 9%;
+   padding: 1%;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   position: absolute;
+   top:24%;
+   left:42.5%;
+}
+
+.cvv{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 40%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.cvv1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 9%;
+   padding: 1%;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   position: absolute;
+   top:38.5%;
+   left:42.5%;
+}
+
+.date33{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 54.5%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.date34{
+   background: #FFFAFA;
+   width: 38%;
+   height: 9.5%;
+   padding: 1%;
+   font-size: 100%;
+   border: 1px solid #ccc;
+   position: absolute;
+   top:53%;
+   left:42.5%;
+}
+
+
+.type{
+	color:#4F4D56;
+	font-size:97%;
+	position: absolute;
+	top: 69%;
+	left:18.5%;
+	font-family: Trebuchet MS, sans-serif;
+}
+
+
+.type1{
+   background: #FFFAFA;
+   width: 38%;
+   height: 9.5%;
+   padding: 5px;
+   font-size: 80%;
+   border: 1px solid #ccc;
+   color: #7A7A7A;
+   position: absolute;
+   top:67.5%;
+   left:42.5%;
+}
+
+
+.append {
+    cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:10%;
+	width: 18%;
+	position:absolute;
+	top:85%;
+	left:42.5%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:90%
+}
+.append:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}

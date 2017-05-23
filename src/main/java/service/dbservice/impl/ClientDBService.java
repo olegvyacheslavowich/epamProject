@@ -3,9 +3,7 @@ package service.dbservice.impl;
 import daolayer.impl.ClientDao;
 import entity.Client;
 
-/**
- * Created by 20_ok on 17.05.2017.
- */
+
 public class ClientDBService {
 
     private ClientDao dao = new ClientDao();
