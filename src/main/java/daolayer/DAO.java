@@ -1,5 +1,6 @@
 package daolayer;
 
+import com.sun.istack.internal.logging.Logger;
 import dbconnection.ConnectionPool;
 
 import java.sql.Connection;
@@ -7,9 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by 20_ok on 21.03.2017.
- */
 
 /**
  * класс Data Access Object(DAO) для работы с БД
@@ -19,11 +17,13 @@ import java.util.List;
  */
 public abstract class DAO<E, K> {
 
+    protected Logger logger = Logger.getLogger(DAO.class);
+
+    private static final String DRIVER = "org.hsqldb.jdbc.JDBCDriver";
     private static final String URL = "jdbc:hsqldb:file:hypersqlDB/travel";
     private static final String USER_NAME = "SA";
     private static final String PASSWORD = "";
-    private ConnectionPool pool = new ConnectionPool(URL, USER_NAME, PASSWORD);
-    protected Connection connection = getConnection();
+    private ConnectionPool pool = ConnectionPool.getInstance(DRIVER, URL, USER_NAME, PASSWORD);
 
     public abstract K create(E entity);
 
@@ -37,7 +37,6 @@ public abstract class DAO<E, K> {
 
 
     protected final Connection getConnection() {
-
         return pool.getConnection();
     }
 
@@ -46,20 +45,25 @@ public abstract class DAO<E, K> {
             try {
                 rs.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.info(e.getMessage());
             }
         }
     }
 
     protected final void close(Connection connection, ResultSet rs) {
 
-        pool.returnToPull(connection);
+        pool.returnToPoll(connection);
         if (rs != null) {
             try {
                 rs.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.info(e.getMessage());
             }
         }
+    }
+
+    protected final void close(Connection connection) {
+
+        pool.returnToPoll(connection);
     }
 }

@@ -17,14 +17,25 @@ header {
 	 opacity: 0.8;
 	 
 }
+
+.find{
+	 text-decoration: none;
+     color: #4F4D56;
+     position:absolute;
+	 top:15%;
+	 left:6.5%;
+     font-family: Trebuchet MS, sans-serif;
+     font-size:92%;
+}
+
 .RU{
 	border:none;
 background:no-repeat left top url(5.png);
 width:1.8%;
 height: 75%;
-position:relative;
-top:7%;
-left:1%;
+position:absolute;
+top:3.5%;
+left:1.2%;
 }
 
 .ENG{
@@ -32,9 +43,9 @@ left:1%;
 background:no-repeat left top url(6.png);
 width:1.8%;
 height: 75%;
-position:relative;
-top:7%;
-left:1.6%;
+position:absolute;
+top:3.5%;
+left:3.5%;
 }
 
 .exit{
@@ -94,4 +105,43 @@ font-size:90%;
 	right:39%;
 	font-family: Trebuchet MS, sans-serif;
 	text-shadow: 0 0 5px #fff;
+}
+
+.myK{
+	cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:80%;
+	width: 8.5%;
+	position:absolute;
+	top:9.7%;
+	left:84%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:80%;
+}
+
+.myK:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
+}
+
+
+.adminka{
+	cursor: pointer;
+	border: 1px solid #cecece;
+	background: 	#8A7F8E;
+	box-shadow: inset 0px 20px 20px #ffffff;
+	border-radius: 8px;
+	height:80%;
+	width: 4.7%;
+	position:absolute;
+	top:10%;
+	left:88%;
+	font-family: Trebuchet MS, sans-serif;
+	font-size:80%;	
+}
+
+.adminka:hover {
+	box-shadow: inset 0px -20px 60px #ffffff;
 }

@@ -86,6 +86,18 @@ public enum CommandEnum {
         {
             command = new CardCommand();
         }
+    },
+
+    ADMIN {
+        {
+            command = new AdminCommand();
+        }
+    },
+
+    HOTTOUR {
+        {
+            command = new HotTourCommand();
+        }
     };
 
 
@@ -94,4 +106,4 @@ public enum CommandEnum {
     public ActionCommand getCommand() {
         return command;
     }
-}
+    }

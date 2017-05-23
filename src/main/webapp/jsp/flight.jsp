@@ -6,7 +6,7 @@
 <%@ taglib uri="/WEB-INF/tld/localization.tld" prefix="l" %>
 <html>
 <head>
-    <title>Данные о клиентах</title>
+    <title><l:localization key="label.clients_data"/></title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/style/flight.css"/>"/>
 
 </head>
@@ -15,31 +15,31 @@
 
 <jsp:include page="header.jsp"/>
 
-<c:if test="${user eq null}">
-    <jsp:forward page="login.jsp"/>
+<c:if test="${sessionScope.tour eq null}">
+    <jsp:forward page="index.jsp"/>
 </c:if>
 
 <form name="flight" method="post" action="/servlet">
     <input type="hidden" name="command" value="flight">
     <div class="first">
-        <label class="to"> Туда: <br>
-            Рейс: ${flightTo.plane.name} <br>
-            Вылет из: ${flightTo.plane.departureCity.name} <br>
-            Прилет в: ${flightTo.plane.arrivalCity.name}<br>
-            Дата: ${flightTo.date} <br>
-            Время вылета: ${flightTo.plane.departureTime}<br>
-            Время в пути: ${flightTo.plane.travelTime}<br>
+        <label class="to"><l:localization key="label.to"/>: <br>
+            <l:localization key="label.flight"/>: ${flightTo.plane.name} <br>
+            <l:localization key="label.departure"/>: ${flightTo.plane.departureCity.name} <br>
+            <l:localization key="label.arrival"/>: ${flightTo.plane.arrivalCity.name}<br>
+            <l:localization key="label.departure_date"/>: ${flightTo.date} <br>
+            <l:localization key="label.departure_time"/>: ${flightTo.plane.departureTime}<br>
+            <l:localization key="label.travel_time"/>: ${flightTo.plane.travelTime}<br>
         </label>
     </div>
 
     <div class="second">
-        <label class="from">Обратно: <br>
-            Рейс: ${flightFrom.plane.name} <br>
-            Вылет из: ${flightFrom.plane.departureCity.name} <br>
-            Прилет в: ${flightFrom.plane.arrivalCity.name}<br>
-            Дата: ${flightFrom.date} <br>
-            Время вылета: ${flightFrom.plane.departureTime}<br>
-            Время в пути: ${flightFrom.plane.travelTime}<br>
+        <label class="from"><l:localization key="label.from"/>: <br>
+            <l:localization key="label.flight"/>: ${flightFrom.plane.name} <br>
+            <l:localization key="label.departure"/>: ${flightFrom.plane.departureCity.name} <br>
+            <l:localization key="label.arrival"/>: ${flightFrom.plane.arrivalCity.name}<br>
+            <l:localization key="label.departure_date"/>: ${flightFrom.date} <br>
+            <l:localization key="label.departure_time"/>: ${flightFrom.plane.departureTime}<br>
+            <l:localization key="label.travel_time"/>: ${flightFrom.plane.travelTime}<br>
         </label>
     </div>
 
@@ -47,12 +47,12 @@
     <table class="table2">
         <tr>
             <th class="four">№</th>
-            <th class="one">ФИО</th>
-            <th class="one">Дата рождения</th>
-            <th class="two">Документ</th>
-            <th class="three">Номер документа</th>
-            <th class="four">Телефон</th>
-            <th class="four">e-mail</th>
+            <th class="one"><l:localization key="label.full_name"/></th>
+            <th class="one"><l:localization key="label.birthday"/></th>
+            <th class="two"><l:localization key="label.paper"/></th>
+            <th class="three"><l:localization key="label.paper_num"/></th>
+            <th class="four"><l:localization key="label.mobile"/></th>
+            <th class="four"><l:localization key="label.email"/></th>
         </tr>
         <c:forEach var="i" begin="1" end="${adultNumber}">
 
@@ -74,7 +74,7 @@
         </c:forEach>
     </table>
 
-    <input type="submit" name="choose" value="Перейти к оплате" class="choose2">
+    <input type="submit" name="choose" value="<l:localization key="label.to_pay"/>" class="choose2">
 
 </form>
 

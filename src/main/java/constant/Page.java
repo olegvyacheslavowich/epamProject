@@ -5,13 +5,15 @@ package constant;
  */
 public enum Page {
 
-    INDEX ("/jsp/index.jsp"),
-    LOGIN ("/jsp/login.jsp"),
+    INDEX("/jsp/index.jsp"),
+    LOGIN("/jsp/login.jsp"),
     REGISTRATION("/jsp/registration.jsp"),
     TOURS("/jsp/tours.jsp"),
     FLIGHT("/jsp/flight.jsp"),
     PAYMENT("/jsp/payment.jsp"),
-    USER ("/jsp/user.jsp");
+    USER("/jsp/user.jsp"),
+    ADMIN("/jsp/admin.jsp"),
+    CARD("/jsp/card.jsp");
 
     Page(String page) {
         this.page = page;

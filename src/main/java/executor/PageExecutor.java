@@ -1,10 +1,14 @@
-package executor.pageexecutor;
+package executor;
 
-import service.dbservice.*;
+import constant.Attribute;
+import constant.Num;
+import entity.HotTour;
+import entity.Tour;
+import service.dbservice.impl.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by 20_ok on 11.05.2017.
@@ -23,6 +27,8 @@ public abstract class PageExecutor {
     private VoucherDBService voucherDBService;
     private CreditCardDBService creditCardDBService;
     private CardTypeDBService cardTypeDBService;
+    private AdminDBService adminDBService;
+    private HotTourDBService hotTourDBService;
 
     public PageExecutor(HttpServletRequest rq, HttpSession session) {
         this.rq = rq;
@@ -31,42 +37,16 @@ public abstract class PageExecutor {
         userDBService = new UserDBService(session);
         moneyDBService = new MoneyDBService();
         orderDBService = new OrderDBService();
-        flightDBService = new FlightDBService();
+        flightDBService = new FlightDBService(session);
         tourDBService = new TourDBService();
         clientDBService = new ClientDBService();
         voucherDBService = new VoucherDBService(session);
         creditCardDBService = new CreditCardDBService(session);
         cardTypeDBService = new CardTypeDBService(session);
+        adminDBService = new AdminDBService(session);
+        hotTourDBService = new HotTourDBService(session);
     }
 
-    /**
-     * метод считывает со страницы все параметры и атрибуты
-     */
-    public abstract void read();
-
-    /**
-     * метод производит валидацию принятых данных
-     */
-    public abstract void validate();
-
-    /**
-     * метод собирает сущности из принятых данных
-     */
-    public abstract void build();
-
-    /**
-     * метод пишет в сессию необходимые данные
-     */
-    public abstract void write();
-
-
-    public abstract String returnPage();
-
-    /**
-     * метод читает из сессии текущий язык локализации
-     *
-     * @return язык ru или en
-     */
     protected void setToRequest(String attribute, Object object) {
         rq.setAttribute(attribute, object);
     }
@@ -78,6 +58,10 @@ public abstract class PageExecutor {
     protected void setToBoth(String attribute, Object object) {
         rq.setAttribute(attribute, object);
         session.setAttribute(attribute, object);
+    }
+
+    protected void removeFromSession(String attribute) {
+        session.removeAttribute(attribute);
     }
 
     protected String readFromRequest(String parameter) {
@@ -94,12 +78,8 @@ public abstract class PageExecutor {
      * @return true если запонено, false если не заполнено
      */
 
-    protected boolean isNull(Date date) {
-        return date == null;
-    }
-
-    protected boolean isNull(String string) {
-        return string == null;
+    protected boolean isNull(Object object) {
+        return object == null;
     }
 
     protected boolean isNull(int i) {
@@ -144,5 +124,31 @@ public abstract class PageExecutor {
 
     protected CardTypeDBService getCardTypeDBService() {
         return cardTypeDBService;
+    }
+
+    protected AdminDBService getAdminDBService() {
+        return adminDBService;
+    }
+
+    protected HotTourDBService getHotTourDBService() {
+        return hotTourDBService;
+    }
+
+    protected void searchHotTours(List<Tour> tours, List<HotTour> hotTours) {
+        for (Tour tour : tours) {
+            for (HotTour hotTour : hotTours) {
+                if (tour.getId() == hotTour.getTour().getId()) {
+                    tour.setId(Num.MINUS_ONE.getNum());
+                }
+            }
+        }
+    }
+
+    protected String getCurrentLanguage() {
+        return (String) session.getAttribute(Attribute.LOCALE.getAttribute());
+    }
+
+    public HttpSession getSession() {
+        return session;
     }
 }

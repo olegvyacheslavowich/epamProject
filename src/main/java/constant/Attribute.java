@@ -34,7 +34,12 @@ public enum Attribute {
     USER("user"),
     MONEY_ID("moneyId"),
     FULL_NAME("fullName1"),
-    ORDERS("orders");
+    ORDERS("orders"),
+    ADMIN("admin"),
+    HOT_TOURS("hotToursNumber"),
+    ALL_TOURS("allTours"),
+
+    SOLD("sold");
 
     String attribute;
 

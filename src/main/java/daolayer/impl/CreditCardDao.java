@@ -5,14 +5,12 @@ import daolayer.DAO;
 import entity.CreditCard;
 import service.Query;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by 20_ok on 18.05.2017.
- */
 public class CreditCardDao extends DAO<CreditCard, Integer> {
 
 
@@ -24,6 +22,8 @@ public class CreditCardDao extends DAO<CreditCard, Integer> {
 
     @Override
     public Integer create(CreditCard entity) {
+
+        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
         try (PreparedStatement ps = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -39,7 +39,7 @@ public class CreditCardDao extends DAO<CreditCard, Integer> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(rs);
+            close(connection, rs);
         }
         return result;
 

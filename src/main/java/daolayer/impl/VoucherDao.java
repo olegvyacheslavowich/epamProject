@@ -23,6 +23,8 @@ public class VoucherDao extends DAO<Voucher, Integer> {
 
     @Override
     public Integer create(Voucher entity) {
+
+        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
         try (PreparedStatement ps = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -51,6 +53,7 @@ public class VoucherDao extends DAO<Voucher, Integer> {
     @Override
     public boolean update(Voucher entity) {
 
+        Connection connection = getConnection();
         boolean result = false;
         try (PreparedStatement ps = connection.prepareStatement(UPDATE.getQuery())) {
             ps.setInt(Num.FIRST.getNum(), entity.getTour().getId());
@@ -70,6 +73,7 @@ public class VoucherDao extends DAO<Voucher, Integer> {
     @Override
     public boolean delete(Voucher entity) {
 
+        Connection connection = getConnection();
         boolean result = false;
         try (PreparedStatement ps = connection.prepareStatement(DELETE.getQuery())) {
             ps.setInt(Num.FIRST.getNum(), entity.getId());

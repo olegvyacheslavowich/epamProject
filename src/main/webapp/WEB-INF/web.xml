@@ -15,4 +15,14 @@
         <url-pattern>/servlet</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>filter.EncodingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/servlet</url-pattern>
+    </filter-mapping>
+
 </web-app>

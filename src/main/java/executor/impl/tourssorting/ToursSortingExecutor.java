@@ -1,24 +1,24 @@
-package executor.pageexecutor.impl;
+package executor.impl.tourssorting;
 
 import constant.Attribute;
 import constant.Page;
 import constant.Parameter;
+import entity.HotTour;
 import entity.Tour;
-import executor.pageexecutor.PageExecutor;
+import executor.PageExecutor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 20_ok on 13.05.2017.
- */
 public class ToursSortingExecutor extends PageExecutor {
 
     private String page = Page.TOURS.getPage();
 
     private static final String SORTING_BY_DAYS = "days";
     private static final String SORTING_BY_PRICE = "price";
+    private static final String SORTING_BY_HOT = "hotTours";
 
     private String sortingBy;
     private List<Tour> tours;
@@ -28,23 +28,11 @@ public class ToursSortingExecutor extends PageExecutor {
         super(rq, session);
     }
 
-    @Override
     public void read() {
         sortingBy = readFromRequest(Parameter.SORT.getParameter());
         tours = (List<Tour>) readFromSession(Attribute.TOURS.getAttribute());
     }
 
-    @Override
-    public void build() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void validate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void write() {
         if (!isNull(sortingBy)) {
             switch (sortingBy) {
@@ -54,11 +42,13 @@ public class ToursSortingExecutor extends PageExecutor {
                 case SORTING_BY_PRICE:
                     setToRequest(Attribute.TOURS.getAttribute(), getToursSortedByPrice(tours));
                     break;
+                case SORTING_BY_HOT:
+                    setToRequest(Attribute.TOURS.getAttribute(), getHotTours());
+                    break;
             }
         }
     }
 
-    @Override
     public String returnPage() {
         return page;
     }
@@ -72,6 +62,17 @@ public class ToursSortingExecutor extends PageExecutor {
     private List<Tour> getToursSortedByPrice(List<Tour> tours) {
 
         tours.sort(new Tour.SortingByPrice());
+        return tours;
+    }
+
+    private List<Tour> getHotTours() {
+
+        List<Tour> tours = new ArrayList<>();
+        List<HotTour> hotTours = getHotTourDBService().readAll();
+
+        for (HotTour hotTour : hotTours) {
+            tours.add(hotTour.getTour());
+        }
         return tours;
     }
 }

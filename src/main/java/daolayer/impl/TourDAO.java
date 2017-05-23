@@ -15,7 +15,9 @@ import java.util.List;
 
 public class TourDAO extends DAO<Tour, Integer> {
 
-    private Connection connection = getConnection();
+    private static final Query UPDATE = new Query("" +
+            "UPDATE tour SET TOUR_ID = ?, CITY_ID = ?, DESCRIPTION = ?, DAYS = ?, PRICE = ?, HOTEL_ID = ?" +
+            "WHERE tour.tour_id = ?");
 
     private static final Query READ_ALL = new Query("SELECT\n" +
             "  COUNTRIES.NAME,\n" +
@@ -26,7 +28,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS,\n" +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID\n" +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -43,7 +47,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS,\n" +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID\n" +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -60,7 +66,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS," +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID " +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -79,7 +87,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS,\n" +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID\n" +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -97,7 +107,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS,\n" +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID\n" +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -116,7 +128,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS,\n" +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID\n" +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -134,7 +148,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS,\n" +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID\n" +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -154,7 +170,9 @@ public class TourDAO extends DAO<Tour, Integer> {
             "  TOUR.DESCRIPTION,\n" +
             "  TOUR.DAYS,\n" +
             "  TOUR.PRICE,\n" +
-            "  TOUR_ID\n" +
+            "  TOUR_ID," +
+            "  CITIES.CITY_ID," +
+            "  HOTEL.HOTEL_ID \n" +
             "FROM TOUR\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND\n" +
@@ -172,6 +190,7 @@ public class TourDAO extends DAO<Tour, Integer> {
     @Override
     public Tour read(Integer id) {
 
+        Connection connection = getConnection();
         Tour tour = null;
         ResultSet rs = null;
         try (PreparedStatement ps = connection.prepareStatement(READ.getQuery())) {
@@ -192,6 +211,8 @@ public class TourDAO extends DAO<Tour, Integer> {
                 tour.setDays(rs.getInt(Num.SEVENTH.getNum()));
                 tour.setPrice(rs.getInt(Num.EIGHTH.getNum()));
                 tour.setId(rs.getInt(Num.NINTH.getNum()));
+                city.setId(rs.getInt(Num.TENTH.getNum()));
+                hotel.setId(rs.getInt(Num.ELEVENTH.getNum()));
 
                 city.setCountry(country);
                 tour.setCity(city);
@@ -207,7 +228,24 @@ public class TourDAO extends DAO<Tour, Integer> {
 
     @Override
     public boolean update(Tour entity) {
-        return false;
+
+        Connection connection = getConnection();
+        boolean result = false;
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE.getQuery())) {
+            ps.setInt(Num.FIRST.getNum(), entity.getId());
+            ps.setInt(Num.SECOND.getNum(), entity.getCity().getId());
+            ps.setString(Num.THIRD.getNum(), entity.getDescription());
+            ps.setInt(Num.FOURTH.getNum(), entity.getDays());
+            ps.setInt(Num.FIFTH.getNum(), entity.getPrice());
+            ps.setInt(Num.SIXTH.getNum(), entity.getHotel().getId());
+            ps.setInt(Num.SEVENTH.getNum(), entity.getId());
+            result = ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(connection);
+        }
+        return result;
     }
 
     @Override
@@ -217,6 +255,8 @@ public class TourDAO extends DAO<Tour, Integer> {
 
     @Override
     public List<Tour> readAll() {
+
+        Connection connection = getConnection();
         List<Tour> tours = new ArrayList<>();
         ResultSet rs = null;
 
@@ -233,6 +273,7 @@ public class TourDAO extends DAO<Tour, Integer> {
 
     public List<Tour> readAllByCountryAndDateAndHotelStars(String countryName, Date date, int stars) {
 
+        Connection connection = getConnection();
         List<Tour> tours = new ArrayList<>();
         ResultSet rs = null;
 
@@ -252,6 +293,7 @@ public class TourDAO extends DAO<Tour, Integer> {
 
     public List<Tour> readAllByCountryAndHotelStars(String countryName, int stars) {
 
+        Connection connection = getConnection();
         List<Tour> tours = new ArrayList<>();
         ResultSet rs = null;
 
@@ -270,6 +312,7 @@ public class TourDAO extends DAO<Tour, Integer> {
 
     public List<Tour> readAllByCountry(String countryName) {
 
+        Connection connection = getConnection();
         List<Tour> tours = new ArrayList<>();
         ResultSet rs = null;
 
@@ -287,6 +330,7 @@ public class TourDAO extends DAO<Tour, Integer> {
 
     public List<Tour> readAllByDate(Date date) {
 
+        Connection connection = getConnection();
         List<Tour> tours = new ArrayList<>();
         ResultSet rs = null;
 
@@ -304,6 +348,7 @@ public class TourDAO extends DAO<Tour, Integer> {
 
     public List<Tour> readAllByHotelStars(int hotelStars) {
 
+        Connection connection = getConnection();
         List<Tour> tours = new ArrayList<>();
         ResultSet rs = null;
 
@@ -320,6 +365,8 @@ public class TourDAO extends DAO<Tour, Integer> {
     }
 
     public List<Tour> readAllByCountryDate(String country, Date date) {
+
+        Connection connection = getConnection();
         List<Tour> tours = new ArrayList<>();
         ResultSet rs = null;
 
@@ -352,6 +399,8 @@ public class TourDAO extends DAO<Tour, Integer> {
             tour.setDays(rs.getInt(Num.SEVENTH.getNum()));
             tour.setPrice(rs.getInt(Num.EIGHTH.getNum()));
             tour.setId(rs.getInt(Num.NINTH.getNum()));
+            city.setId(rs.getInt(Num.TENTH.getNum()));
+            hotel.setId(rs.getInt(Num.ELEVENTH.getNum()));
 
             city.setCountry(country);
             tour.setCity(city);

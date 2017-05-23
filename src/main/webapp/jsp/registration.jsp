@@ -6,59 +6,59 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Registration</title>
+    <title><l:localization key="label.registration"/></title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/style/registration.css"/>"/>
+
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+
+<c:if test="${sessionScope.user ne null}">
+    <jsp:forward page="index.jsp"/>
+</c:if>
+
+<c:if test="${sessionScope.admin.account.login ne null}">
+    <jsp:forward page="index.jsp"/>
+</c:if>
 
 <aside>
     <form name="registration" method="post" action="/servlet">
         <input type="hidden" name="command" value="registration">
 
-        <label class="login5"> <l:localization key="label.login"/>
-        </label>
+        <label class="login5"> <l:localization key="label.login"/></label>
         <input type="text" class="login6" name="login" value="">
 
-        <label class="name"> <l:localization key="label.name"/>
-        </label>
-        <input type="text" class="name1" name="name" value="">
+        <label class="name"> <l:localization key="label.full_name"/> </label>
+        <input type="text" class="name1" name="fullName" value="">
 
-        <label class="surname"> <l:localization key="label.surname"/>
-        </label>
-        <input type="text" class="surname1" name="surname" value="">
-
-        <label class="patronymic">Отчество</label>
-        <l:localization key="label.patronymic"/>
-        <input type="text" class="patronymic1" name="patronymic" value="">
-
-        <label class="year">Дата рождения</label>
-        <l:localization key="label.year"/>
+        <label class="year"><l:localization key="label.birthday"/></label>
         <input type="date" class="year1" name="year" value="">
 
-        <label class="city">Город</label>
-        <l:localization key="label.city"/>
-        <input type="text" class="city1" name="city" value="">
+        <label class="doc"><l:localization key="label.paper"/></label>
+        <td><select name="paper" class="doc1">
+            <option value="passport"><l:localization key="label.passport"/></option>
+            <option value="identityСard"><l:localization key="label.id_card"/></option>
+            <option value="birthСertificate"><l:localization key="label.birth_certificate"/></option>
+        </select></td>
 
-        <label class="mobile">Телефон</label>
-        <l:localization key="label.mobile"/>
-        <input type="text" class="mobile1" name="mobile" value="">
+        <label class="numberdoc"><l:localization key="label.paper_num"/></label>
+        <input type="text" name="documentNum" class="numberdoc1" value="">
 
-        <label class="email">E-mail</label>
-        <l:localization key="label.email"/>
+
+        <label class="mobile"> <l:localization key="label.mobile"/> </label>
+        <input type="text" class="mobile1" name="phone" value="">
+
+        <label class="email"> <l:localization key="label.email"/> </label>
         <input type="text" class="email1" name="email" value="">
 
-        <label class="pass">Пароль</label>
-        <l:localization key="label.password"/>
+        <label class="pass"><l:localization key="label.password"/> </label>
         <input type="password" class="pass1" name="password" value="">
 
-        <label class="rpassword">Повторите пароль</label>
-        <l:localization key="label.rpassword"/>
+        <label class="rpassword"> <l:localization key="label.rpassword"/> </label>
         <input type="password" class="rpassword1" name="rpassword" value="">
 
 
-        <input type="submit" class="regist" name="registration" value="Регистрация"> <l:localization
-            key="submit.registration"/>
+        <input type="submit" class="regist" name="registration" value="<l:localization key="label.registration"/>">
     </form>
 </aside>
 

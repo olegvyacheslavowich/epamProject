@@ -31,9 +31,6 @@ public class Controller extends HttpServlet {
 
     private void requestHandler(HttpServletRequest rq, HttpServletResponse rp) throws ServletException, IOException {
 
-        rp.setContentType("text/html;charset=UTF-8");
-        rq.setCharacterEncoding("UTF-8");
-
         ActionFactory factory = new ActionFactory();
         ActionCommand command = factory.getCommand(rq);
 

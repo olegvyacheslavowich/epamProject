@@ -13,8 +13,8 @@ import java.util.List;
 
 public class UserDAO extends DAO<User, Integer> {
 
-    private Connection connection = getConnection();
-    private static final Query CREATE = new Query("INSERT INTO user VALUES (?,?,?,?,?,?,?)");
+    private static final Query CREATE = new Query("INSERT INTO " +
+            "user(paper, document_num, birthday, phone, email, full_name, login_id) VALUES (?,?,?,?,?,?,?)");
     private static final Query READ = new Query("SELECT * FROM user WHERE user_id = ?;");
     private static final Query READ_BY_ACCOUNT = new Query("SELECT\n" +
             "  USER_ID,\n" +
@@ -34,24 +34,25 @@ public class UserDAO extends DAO<User, Integer> {
     @Override
     public Integer create(User entity) {
 
+        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
         try (PreparedStatement st = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
             st.setString(Num.FIRST.getNum(), entity.getPaper());
-            st.setInt(Num.SECOND.getNum(), entity.getDocumentNum());
-            st.setString(Num.FIFTH.getNum(), entity.getEmail());
-            st.setString(Num.SIXTH.getNum(), entity.getAccount().getLogin());
+            st.setLong(Num.SECOND.getNum(), entity.getDocumentNum());
             st.setDate(Num.THIRD.getNum(), entity.getBirthday());
             st.setString(Num.FOURTH.getNum(), entity.getPhone());
-            st.setString(Num.SEVENTH.getNum(), entity.getFullName());
+            st.setString(Num.FIFTH.getNum(), entity.getEmail());
+            st.setString(Num.SEVENTH.getNum(), entity.getAccount().getLogin());
+            st.setString(Num.SIXTH.getNum(), entity.getFullName());
             st.execute();
             rs = st.getGeneratedKeys();
             rs.next();
-            result = rs.getInt(1);
+            result = rs.getInt(Num.FIRST.getNum());
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(rs);
+            close(connection, rs);
         }
 
         return result;
@@ -60,6 +61,7 @@ public class UserDAO extends DAO<User, Integer> {
     @Override
     public User read(Integer id) {
 
+        Connection connection = getConnection();
         User user = null;
         ResultSet rs = null;
 
@@ -83,7 +85,7 @@ public class UserDAO extends DAO<User, Integer> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(rs);
+            close(connection, rs);
         }
         return user;
     }
@@ -101,6 +103,7 @@ public class UserDAO extends DAO<User, Integer> {
     @Override
     public List<User> readAll() {
 
+        Connection connection = getConnection();
         List<User> users = new ArrayList<>();
         User user;
         ResultSet rs = null;
@@ -124,7 +127,7 @@ public class UserDAO extends DAO<User, Integer> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(rs);
+            close(connection, rs);
         }
 
         return users;
@@ -132,6 +135,8 @@ public class UserDAO extends DAO<User, Integer> {
 
 
     public User readByAccount(Account account) {
+
+        Connection connection = getConnection();
         User user = null;
         ResultSet rs = null;
 
@@ -155,7 +160,7 @@ public class UserDAO extends DAO<User, Integer> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(rs);
+            close(connection, rs);
         }
         return user;
     }

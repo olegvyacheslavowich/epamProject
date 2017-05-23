@@ -14,7 +14,7 @@ public class User {
     private String email;
     private Account account;
 
-    private User(UserBuilder userBuilder) {
+    public User(UserBuilder userBuilder) {
         this.id = userBuilder.id;
         this.fullName = userBuilder.fullName;
         this.paper = userBuilder.paper;
@@ -88,7 +88,7 @@ public class User {
             return this;
         }
 
-        public UserBuilder documentNum(int documentNum) {
+        public UserBuilder documentNum(long documentNum) {
             this.documentNum = documentNum;
             return this;
         }

@@ -45,7 +45,7 @@ public class CountryDao extends DAO<Country, Integer> {
     public List<Country> readAll() {
 
         List<Country> countries = new ArrayList<>();
-        ResultSet rs;
+        ResultSet rs = null;
 
         try (Statement st = connection.createStatement()) {
             rs = st.executeQuery(READ_ALL.getQuery());
@@ -56,6 +56,8 @@ public class CountryDao extends DAO<Country, Integer> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            close(connection, rs);
         }
         return countries;
     }

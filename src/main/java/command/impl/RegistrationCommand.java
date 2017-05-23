@@ -1,102 +1,46 @@
 package command.impl;
 
+import com.sun.istack.internal.logging.Logger;
 import command.ActionCommand;
 import constant.Attribute;
-import constant.Key;
 import constant.Page;
-import constant.Parameter;
-import daolayer.impl.AccountDAO;
-import daolayer.impl.UserDAO;
-import entity.Account;
-import entity.User;
 import exception.DifferentPasswordsException;
+import exception.EmptyFieldException;
 import exception.ExistingAccountException;
-import service.ResourceManager;
+import exception.IncorrectDataException;
+import executor.impl.registration.impl.BuildRegistrationExecutor;
+import executor.impl.registration.impl.ReadRegistrationExecutor;
+import executor.impl.registration.impl.ValidateRegistrationExecutor;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
-import java.util.Objects;
+import javax.servlet.http.HttpSession;
 
-/**
- * Created by 20_ok on 20.03.2017.
- */
 public class RegistrationCommand implements ActionCommand {
-    @Override
-    public String execute(HttpServletRequest rq) {
-        return null;
-    }
-/*
-    private static final String EXCEPTION = "exception";
-    private String currentLanguage;
 
+    private Logger logger = Logger.getLogger(RegistrationCommand.class);
 
     @Override
     public String execute(HttpServletRequest rq) {
-        return registration(rq);
-    }
 
-    private String registration(HttpServletRequest rq) {
-
-        currentLanguage = (String) rq.getSession().getAttribute(Attribute.LOCALE.getAttribute());
         String page;
-        UserDAO userDAO = new UserDAO();
+
+        HttpSession session = rq.getSession();
+
+        ReadRegistrationExecutor read = new ReadRegistrationExecutor(rq, session);
+        ValidateRegistrationExecutor validate = new ValidateRegistrationExecutor(rq, session);
+        BuildRegistrationExecutor build = new BuildRegistrationExecutor(rq, session);
+
 
         try {
-            User user = getUser(rq);
-            userDAO.create(user);
-            page = Page.INDEX.getPage();
-
-        } catch (ExistingAccountException e) {
-            rq.setAttribute(EXCEPTION, ResourceManager.getResource(Key.ACCOUNT_IS_EXIST.getKey(),currentLanguage));
+            read.setNext(validate);
+            validate.setNext(build);
+            page = read.execute(null, null, null, null, null, null, null, null, null);
+        } catch (EmptyFieldException | IncorrectDataException | ExistingAccountException | DifferentPasswordsException e) {
             page = Page.REGISTRATION.getPage();
-        } catch (DifferentPasswordsException e) {
-            rq.setAttribute(EXCEPTION, ResourceManager.getResource(Key.PASS_ARE_DIFFERENT.getKey(),currentLanguage));
-            page = Page.REGISTRATION.getPage();
+            rq.setAttribute(Attribute.EXCEPTION.getAttribute(), e.getMessage());
+            logger.info(e.getMessage());
         }
 
         return page;
     }
-
-    private User getUser(HttpServletRequest rq) throws ExistingAccountException, DifferentPasswordsException {
-
-        User user = new User.UserBuilder()
-                .accountId(getAccountId(rq))
-                .name(rq.getParameter(Parameter.NAME.getParameter()))
-                .surname(rq.getParameter(Parameter.SURNAME.getParameter()))
-                .patronymic(rq.getParameter(Parameter.PATRONYMIC.getParameter()))
-                .year(Date.valueOf(rq.getParameter(Parameter.YEAR.getParameter())))
-                .city(rq.getParameter(Parameter.CITY.getParameter()))
-                .mobile(rq.getParameter(Parameter.MOBILE.getParameter()))
-                .email(rq.getParameter(Parameter.EMAIL.getParameter()))
-                .build();
-
-        return user;
-
-    }
-
-    private int getAccountId(HttpServletRequest rq) throws ExistingAccountException, DifferentPasswordsException {
-
-        Account account = new Account();
-        AccountDAO accountDAO = new AccountDAO();
-        account.setLogin(rq.getParameter(Parameter.LOGIN.getParameter()));
-        account.setPassword(rq.getParameter(Parameter.PASSWORD.getParameter()));
-
-        comparePass(account.getPassword(), rq.getParameter(Parameter.REPEAT_PASSWORD.getParameter()));
-
-        int id;
-        if ((id = accountDAO.create(account)) != -1) {
-            account.setId(id);
-        } else {
-            throw new ExistingAccountException(ResourceManager.getResource(Key.ACCOUNT_IS_EXIST.getKey(),currentLanguage));
-        }
-
-        return account.getId();
-    }
-
-    private void comparePass(String pass1, String pass2) throws DifferentPasswordsException {
-
-        if (!Objects.equals(pass1, pass2)) {
-            throw new DifferentPasswordsException(ResourceManager.getResource(Key.PASS_ARE_DIFFERENT.getKey(),currentLanguage));
-        }
-    }*/
 }

@@ -1,10 +1,10 @@
 aside {
      background:rgba(245,245,220,0.45);
      width:50%;
-     height:90%;
+     height:80%;
 	 border: solid 1px #B5B8B1;
      position:relative;
-     top:3%;
+     top:7.5%;
 	 left:25%;
 	 right: 25%; 
 	 border-radius: 40px;
@@ -18,7 +18,7 @@ aside {
 	 color:#4F4D56;
 	 font-size:105%;
 	 position: absolute;
-	 top: 4.5%;
+	 top: 10%;
 	 left:11%;
 	 font-family: Trebuchet MS, sans-serif;
 }
@@ -27,12 +27,12 @@ aside {
 .login6{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6%;
      padding: 1%;
      font-size: 80%;
      border: 1px solid #ccc;
      position:absolute;
-     top:3.5%;
+     top:8.5%;
      left:33%;
 }
 
@@ -40,7 +40,7 @@ aside {
 	 color:#4F4D56;
 	 font-size:105%;
 	 position: absolute;
-	 top:12.5%;
+	 top:18.5%;
 	 left:11%;
 	 font-family: Trebuchet MS, sans-serif;
 }
@@ -48,63 +48,21 @@ aside {
 .name1{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6%;
      padding: 1%;
      font-size: 80%;
      border: 1px solid #ccc;
      position:absolute;
-     top:11.5%;
+     top:17%;
      left:33%;
 }
 
-
-.surname{
-	 color:#4F4D56;
-	 font-size:105%;
-	 position: absolute;
-	 top: 20.5%;
-	 left:11%;
-	 font-family: Trebuchet MS, sans-serif;
-}
-
-.surname1{
-	 background: #FFFAFA;
-     width: 52%;
-     height: 5%;
-     padding: 1%;
-     font-size: 80%;
-     border: 1px solid #ccc;
-     position:absolute;
-     top:19.5%;
-     left:33%;
-}
-
-.patronymic{
-	 color:#4F4D56;
-	 font-size:105%;
-	 position: absolute;
-	 top: 28.5%;
-	 left:11%;
-	 font-family: Trebuchet MS, sans-serif;
-}
-
-.patronymic1{
-	 background: #FFFAFA;
-     width: 52%;
-     height: 5%;
-     padding: 1%;
-     font-size: 80%;
-     border: 1px solid #ccc;
-     position:absolute;
-     top:27.5%;
-     left:33%;
-}
 
 .year{
 	 color:#4F4D56;
 	 font-size:105%;
 	 position: absolute;
-	 top: 36.5%;
+	 top: 27%;
 	 left:11%;
 	 font-family: Trebuchet MS, sans-serif;
 }
@@ -112,35 +70,57 @@ aside {
 .year1{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6.3%;
      padding: 5px;
      font-size: 90%;
      border: 1px solid #ccc;
    	 position: absolute;
-     top:35.5%;
+     top:25.5%;
      left:33%;
      color: #7A7A7A;
 }
 
-.city{
+.doc{
 	 color:#4F4D56;
 	 font-size:105%;
 	 position: absolute;
-	 top: 44.5%;
+	 top: 35.5%;
 	 left:11%;
 	 font-family: Trebuchet MS, sans-serif;
 }
 
 
-.city1{
+.doc1{
+	  background: #FFFAFA;
+     width: 52%;
+     height: 6%;
+     padding: 5px;
+     font-size: 80%;
+     border: 1px solid #ccc;
+     color: #7A7A7A;
+     position: absolute;
+     top:34%;
+     left:33%;
+}
+
+.numberdoc{
+	 color:#4F4D56;
+	 font-size:105%;
+	 position: absolute;
+	 top: 44%;
+	 left:11%;
+	 font-family: Trebuchet MS, sans-serif;
+}
+
+.numberdoc1{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6%;
      padding: 1%;
      font-size: 80%;
      border: 1px solid #ccc;
      position:absolute;
-     top:43.5%;
+     top:42.5%;
      left:33%;
 }
 
@@ -156,12 +136,12 @@ aside {
 .mobile1{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6%;
      padding: 1%;
      font-size: 80%;
      border: 1px solid #ccc;
      position:absolute;
-     top:51.5%;
+     top:51%;
      left:33%;
 }
 
@@ -169,7 +149,7 @@ aside {
 	 color:#4F4D56;
 	 font-size:105%;
 	 position: absolute;
-	 top: 60.5%;
+	 top: 61%;
 	 left:11%;
 	 font-family: Trebuchet MS, sans-serif;
 }
@@ -177,7 +157,7 @@ aside {
 .email1{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6%;
      padding: 1%;
      font-size: 80%;
      border: 1px solid #ccc;
@@ -190,7 +170,7 @@ aside {
 	 color:#4F4D56;
 	 font-size:105%;
 	 position: absolute;
-	 top: 68.5%;
+	 top: 69.5%;
 	 left:11%;
 	 font-family: Trebuchet MS, sans-serif;
 }
@@ -198,12 +178,12 @@ aside {
 .pass1{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6%;
      padding: 1%;
      font-size: 80%;
      border: 1px solid #ccc;
      position: absolute;
-     top:67.5%;
+     top:68%;
      left:33%;
 }
 
@@ -211,7 +191,7 @@ aside {
 	 color:#4F4D56;
 	 font-size:105%;
 	 position: absolute;
-	 top: 76.5%;
+	 top: 77.5%;
 	 left:11%;
 	 font-family: Trebuchet MS, sans-serif;
 }
@@ -219,12 +199,12 @@ aside {
 .rpassword1{
 	 background: #FFFAFA;
      width: 52%;
-     height: 5%;
+     height: 6%;
      padding: 1%;
      font-size: 80%;
      border: 1px solid #ccc;
      position:absolute;
-     top:75.5%;
+     top:76%;
      left:33%;
 
 }
@@ -235,10 +215,10 @@ aside {
 	background: 	#8A7F8E;
 	box-shadow: inset 0px 20px 20px #ffffff;
 	border-radius: 8px;
-	height:7%;
-	width: 14%;
+	height:6.5%;
+	width: 16%;
 	position:absolute;
-	top:87%;
+	top:88.5%;
 	left:41%;
 	font-family: Trebuchet MS, sans-serif;
 	font-size:90%

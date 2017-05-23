@@ -9,20 +9,19 @@ import service.Query;
 import java.sql.*;
 import java.util.List;
 
-/**
- * Created by 20_ok on 21.03.2017.
- */
-public class AccountDAO extends DAO<Account, Integer> {
 
+public class AccountDAO extends DAO<Account, String> {
 
     private static final Query CREATE = new Query("INSERT INTO account VALUES (?,?);");
     private static final Query READ = new Query("SELECT * FROM Account WHERE login = ?;");
     private static final Query READ_BY_LOGIN_AND_PASSWORD = new Query("SELECT * FROM Account WHERE login = ? and password = ?");
 
     @Override
-    public Integer create(Account entity) {
+    public String create(Account entity) {
 
-        int result = -1;
+
+        Connection connection = getConnection();
+        String result = null;
         ResultSet rs = null;
 
         try (PreparedStatement st = connection.prepareStatement(
@@ -32,28 +31,31 @@ public class AccountDAO extends DAO<Account, Integer> {
             st.execute();
             rs = st.getGeneratedKeys();
             rs.next();
-            result = rs.getInt(Num.FIRST.getNum());
+            result = rs.getString(Num.FIRST.getNum());
         } catch (SQLException e) {
+            logger.info(e.getMessage());
         } finally {
-            close(rs);
+            close(connection, rs);
         }
         return result;
     }
 
     @Override
-    public Account read(Integer id) {
+    public Account read(String id) {
 
+
+        Connection connection = getConnection();
         Account account = null;
         ResultSet rs = null;
 
         try (PreparedStatement st = connection.prepareStatement(READ.getQuery())) {
-            st.setInt(Num.FIRST.getNum(), id);
+            st.setString(Num.FIRST.getNum(), id);
             rs = st.executeQuery();
             account = getAccount(account, rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         } finally {
-            close(rs);
+            close(connection, rs);
         }
         return account;
     }
@@ -75,6 +77,7 @@ public class AccountDAO extends DAO<Account, Integer> {
 
     public Account readByLoginAndPassword(String login, String password) {
 
+        Connection connection = getConnection();
         Account account = null;
         ResultSet rs = null;
 
@@ -84,9 +87,9 @@ public class AccountDAO extends DAO<Account, Integer> {
             rs = st.executeQuery();
             account = getAccount(account, rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         } finally {
-            close(rs);
+            close(connection, rs);
         }
         return account;
     }

@@ -1,5 +1,7 @@
 package command;
 
+import com.sun.istack.internal.logging.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  * Интерейс потомок для всех классов Command.
  */
 public interface ActionCommand {
+
 
     /**
      * Метод возвращает страницу в зависимости от запроса, присланного пользователем
