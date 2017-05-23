@@ -6,12 +6,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="header.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/style/header.css"/>"/>
 </head>
 <body>
 
 <header>
-<a href="#" class="find"> Поиск </a>
+    <a href="/jsp/index.jsp" class="find"> <l:localization key="label.find"/> </a>
 
     <form name="login" method="GET" action="/servlet">
         <input type="hidden" name="translator" value="${pageContext.request.servletPath}"/>
@@ -19,30 +19,29 @@
         <input type="submit" class="ENG" name="language" value="  "/>
     </form>
 
-
     <c:if test="${sessionScope.user eq null}">
         <a href="/jsp/login.jsp" class="login"> <l:localization key="label.come_in"/></a>
         <a href="/jsp/registration.jsp" class="registration"><l:localization key="label.registration"/></a>
         <br/>
-     </c:if> 
-    <c:if test="${sessionScope.user ne null}"> 
+    </c:if>
+    <c:if test="${sessionScope.user ne null}">
         <form name="logout" method="POST" action="/servlet">
             <input type="hidden" name="command" value="logout">
             <input type="submit" class="exit" name="logout" value=" <l:localization key="label.come_out"/>"/>
         </form>
-       <c:if test="${sessionScope.admin.account.login eq null}">
+        <c:if test="${sessionScope.admin.account.login eq null}">
             <form name="user" method="post" action="/servlet">
                 <input type="hidden" name="command" value="user">
                 <input type="submit" class="myK" name="user" value=" <l:localization key="label.private_office"/>">
             </form>
-       </c:if> 
+        </c:if>
         <c:if test="${sessionScope.admin.account.login ne null}">
             <form name="user" method="post" action="/servlet">
                 <input type="hidden" name="command" value="admin">
                 <input type="submit" class="adminka" name="admin" value="<l:localization key="label.admin"/>">
             </form>
-       </c:if>
-  </c:if> 
+        </c:if>
+    </c:if>
     <label class="error">${exception}</label>
 </header>
 </body>
