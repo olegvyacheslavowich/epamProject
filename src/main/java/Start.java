@@ -6,7 +6,7 @@ import dbconnection.ConnectionPool;
 public class Start {
     public static void main(String[] args) {
         String DRIVER = "org.hsqldb.jdbc.JDBCDriver";
-        String URL = "jdbc:hsqldb:file:hypersqlDB/travel";
+        String URL = "jdbc:hsqldb:file: " /* путь до apache-tomcat-7.0.75/bin */ + "hypersqlDB/travel";
         String USER_NAME = "SA";
         String PASSWORD = "";
         ConnectionPool pool = ConnectionPool.getInstance(DRIVER, URL, USER_NAME, PASSWORD);
