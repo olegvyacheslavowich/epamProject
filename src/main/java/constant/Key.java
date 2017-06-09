@@ -23,11 +23,8 @@ public final class Key {
     public static final String EX_ENTER_LOGIN = "exception.enter_login";
     public static final String EX_ENTER_PASSWORD = "exception.enter_password";
     public static final String EX_NOT_ENOUGH_MONEY = "exception.not_enough_money";
-    public static final String EX_ENTER_CARD = "exception.enter_card";
     public static final String EX_ENTER_ORDER = "exception.enter_order";
-    public static final String EX_REPEAT_PASSWORD = "exception.repeat_password";
     public static final String EX_NO_FLIGHT_FOR_DATE = "exception.no_flight_for_date";
-    public static final String EX_NO_FLIGHT_FOR_PARAMETERS = "exception.no_flight_for_parameters";
     public static final String EX_TOURS_NOT_FOUND = "exception.tours_not_found";
     public static final String EX_INCORRECT_OWNER_NAME = "exception.incorrect_owner_name";
     public static final String EX_INCORRECT_CARD_NUMBER = "exception.incorrect_card_number";
@@ -40,8 +37,6 @@ public final class Key {
     public static final String EX_INCORRECT_PAPER = "exception.incorrect_paper";
     public static final String EX_INCORRECT_PHONE = "exception.incorrect_phone";
     public static final String EX_INCORRECT_EMAIL = "exception.incorrect_email";
-    public static final String EX_INCORRECT_CITY = "exception.incorrect_city";
-    public static final String EX_ENTER_CITY = "exception.enter_city";
     public static final String EX_INCORRECT_LOGIN = "exception.incorrect_login";
     public static final String EX_INCORRECT_PASSWORD = "exception.incorrect_password";
 

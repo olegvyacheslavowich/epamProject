@@ -6,7 +6,6 @@ package constant;
 public final class Attribute {
 
     public static final String LOGIN = "login";
-    public static final String PASSWORD = "password";
     public static final String LOCALE = "locale";
     public static final String EXCEPTION = "exception";
     public static final String TOUR = "tour";
@@ -26,9 +25,6 @@ public final class Attribute {
     public static final String USER = "user";
     public static final String ORDERS = "orders";
     public static final String ADMIN = "admin";
-    public static final String HOT_TOURS = "hotToursNumber";
-    public static final String ALL_TOURS = "allTours";
-    public static final String SOLD = "sold";
     public static final String STATISTIC = "statistic";
 
     private Attribute() {
