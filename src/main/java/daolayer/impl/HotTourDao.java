@@ -1,17 +1,19 @@
 package daolayer.impl;
 
-import constant.Num;
-import daolayer.DAO;
+import constant.Number;
+import daolayer.Dao;
 import entity.*;
-import service.Query;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotTourDao extends DAO<HotTour, Integer> {
+public class HotTourDao extends Dao<HotTour, Integer> {
 
-    private static final Query READ_ALL = new Query(
+    private static final String READ_ALL =
             "SELECT\n" +
                     "  COUNTRIES.NAME,\n" +
                     "  CITIES.NAME,\n" +
@@ -30,25 +32,25 @@ public class HotTourDao extends DAO<HotTour, Integer> {
                     "INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID " +
                     "INNER JOIN COUNTRIES ON CITIES.CITY_ID = TOUR.CITY_ID AND " +
                     "COUNTRIES.COUNTRY_ID = CITIES.COUNTRY_ID " +
-                    "INNER JOIN HOTEL ON TOUR.HOTEL_ID = HOTEL.HOTEL_ID");
+                    "INNER JOIN HOTEL ON TOUR.HOTEL_ID = HOTEL.HOTEL_ID";
 
-    private static final Query CREATE = new Query("INSERT INTO hot_tour(tour_id) VALUES (?)");
+    private static final String CREATE = "INSERT INTO hot_tour(tour_id) VALUES (?)";
 
     @Override
     public Integer create(HotTour entity) {
-        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(Num.FIRST.getNum(), entity.getTour().getId());
+        try (PreparedStatement ps = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(Number.FIRST, entity.getTour().getId());
             ps.execute();
             rs = ps.getGeneratedKeys();
             rs.next();
-            result = rs.getInt(Num.FIRST.getNum());
+            result = rs.getInt(Number.FIRST);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return result;
     }
@@ -71,12 +73,11 @@ public class HotTourDao extends DAO<HotTour, Integer> {
     @Override
     public List<HotTour> readAll() {
 
-        Connection connection = getConnection();
         List<HotTour> hotTours = new ArrayList<>();
         ResultSet rs = null;
 
         try (Statement ps = connection.createStatement()) {
-            rs = ps.executeQuery(READ_ALL.getQuery());
+            rs = ps.executeQuery(READ_ALL);
             while (rs.next()) {
                 HotTour hotTour = new HotTour();
                 Tour tour = new Tour();
@@ -84,18 +85,18 @@ public class HotTourDao extends DAO<HotTour, Integer> {
                 Hotel hotel = new Hotel();
                 Country country = new Country();
 
-                country.setName(rs.getString(Num.FIRST.getNum()));
-                city.setName(rs.getString(Num.SECOND.getNum()));
-                hotel.setName(rs.getString(Num.THIRD.getNum()));
-                hotel.setDescription(rs.getString(Num.FOURTH.getNum()));
-                hotel.setStarsNumber(rs.getInt(Num.FIFTH.getNum()));
-                tour.setDescription(rs.getString(Num.SIXTH.getNum()));
-                tour.setDays(rs.getInt(Num.SEVENTH.getNum()));
-                tour.setPrice(rs.getInt(Num.EIGHTH.getNum()));
-                tour.setId(rs.getInt(Num.NINTH.getNum()));
-                city.setId(rs.getInt(Num.TENTH.getNum()));
-                hotel.setId(rs.getInt(Num.ELEVENTH.getNum()));
-                hotTour.setId(rs.getInt(Num.TWELFTH.getNum()));
+                country.setName(rs.getString(Number.FIRST));
+                city.setName(rs.getString(Number.SECOND));
+                hotel.setName(rs.getString(Number.THIRD));
+                hotel.setDescription(rs.getString(Number.FOURTH));
+                hotel.setStarsNumber(rs.getInt(Number.FIFTH));
+                tour.setDescription(rs.getString(Number.SIXTH));
+                tour.setDays(rs.getInt(Number.SEVENTH));
+                tour.setPrice(rs.getInt(Number.EIGHTH));
+                tour.setId(rs.getInt(Number.NINTH));
+                city.setId(rs.getInt(Number.TENTH));
+                hotel.setId(rs.getInt(Number.ELEVENTH));
+                hotTour.setId(rs.getInt(Number.TWELFTH));
 
                 city.setCountry(country);
                 tour.setCity(city);
@@ -104,9 +105,10 @@ public class HotTourDao extends DAO<HotTour, Integer> {
                 hotTours.add(hotTour);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return hotTours;
     }

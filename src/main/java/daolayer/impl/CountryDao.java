@@ -1,12 +1,9 @@
 package daolayer.impl;
 
-import com.sun.org.apache.regexp.internal.RE;
-import constant.Num;
-import daolayer.DAO;
+import constant.Number;
+import daolayer.Dao;
 import entity.Country;
-import service.Query;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,10 +13,9 @@ import java.util.List;
 /**
  * Created by 20_ok on 06.05.2017.
  */
-public class CountryDao extends DAO<Country, Integer> {
+public class CountryDao extends Dao<Country, Integer> {
 
-    private Connection connection = getConnection();
-    private static Query READ_ALL = new Query("SELECT COUNTRIES.NAME FROM COUNTRIES ORDER BY COUNTRIES.NAME");
+    private static String READ_ALL = "SELECT COUNTRIES.NAME FROM COUNTRIES ORDER BY COUNTRIES.NAME";
 
     @Override
     public Integer create(Country entity) {
@@ -48,17 +44,19 @@ public class CountryDao extends DAO<Country, Integer> {
         ResultSet rs = null;
 
         try (Statement st = connection.createStatement()) {
-            rs = st.executeQuery(READ_ALL.getQuery());
+            rs = st.executeQuery(READ_ALL);
             while (rs.next()) {
                 Country country = new Country();
-                country.setName(rs.getString(Num.FIRST.getNum()));
+                country.setName(rs.getString(Number.FIRST));
                 countries.add(country);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return countries;
     }
+
 }

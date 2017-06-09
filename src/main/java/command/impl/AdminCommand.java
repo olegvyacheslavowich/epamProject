@@ -1,25 +1,34 @@
 package command.impl;
 
 import command.ActionCommand;
-import executor.impl.admin.impl.BuildAdminExecutor;
-import executor.impl.admin.impl.ReadAdminExecutor;
-import executor.impl.admin.impl.ValidateAdminExecutor;
+import constant.Attribute;
+import constant.Page;
+import exception.DataBaseConnectionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import service.StatisticService;
+import service.TourService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class AdminCommand implements ActionCommand {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminCommand.class);
+
     @Override
     public String execute(HttpServletRequest rq) {
 
-        HttpSession session = rq.getSession();
+        String page = Page.ADMIN;
+        TourService tourService = new TourService();
+        StatisticService statisticService = new StatisticService();
+        try {
+            rq.setAttribute(Attribute.TOURS, tourService.readAll());
+            rq.setAttribute(Attribute.STATISTIC, statisticService.getStatistic());
+        } catch (DataBaseConnectionException e) {
+            logger.trace("Admin page error ", e);
+            return page;
+        }
 
-        ReadAdminExecutor read = new ReadAdminExecutor(rq, session);
-        ValidateAdminExecutor validate = new ValidateAdminExecutor(rq, session);
-        BuildAdminExecutor build = new BuildAdminExecutor(rq, session);
-
-        read.setNext(validate);
-        validate.setNext(build);
-        return read.execute();
+        return page;
     }
 }

@@ -31,12 +31,13 @@
 </form>
 
 
+
 <div class="stat">
     <label class="statL">
         <l:localization key="label.statistics"/>: <br>
-        <l:localization key="label.all_tours"/>:${allTours}<br>
-        <l:localization key="label.hot_tours"/>:${hotToursNumber}<br>
-        <l:localization key="label.sold"/>: ${sold} <br>
+        <l:localization key="label.all_tours"/>:${statistic.toursNumber}<br>
+        <l:localization key="label.hot_tours"/>:${statistic.hotToursNumber}<br>
+        <l:localization key="label.sold"/>: ${statistic.sold} <br>
     </label>
 </div>
 
@@ -55,7 +56,6 @@
                 <th><l:localization key="label.stars"/></th>
                 <th><l:localization key="label.price"/></th>
                 <th></th>
-
             </tr>
             <c:forEach var="tour" items="${tours}">
                 <tr>

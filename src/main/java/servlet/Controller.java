@@ -17,7 +17,6 @@ import java.io.UnsupportedEncodingException;
 public class Controller extends HttpServlet {
 
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         requestHandler(req, resp);
@@ -35,7 +34,6 @@ public class Controller extends HttpServlet {
         ActionCommand command = factory.getCommand(rq);
 
         String page = command.execute(rq);
-
         rq.getRequestDispatcher(page).forward(rq, rp);
     }
 }

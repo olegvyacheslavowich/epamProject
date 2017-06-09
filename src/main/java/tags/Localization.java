@@ -2,7 +2,7 @@ package tags;
 
 import constant.Attribute;
 import constant.Language;
-import service.ResourceManager;
+import util.ResourceManager;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -28,14 +28,14 @@ public class Localization extends TagSupport {
 
     private String getLocale() {
 
-        String currentLocale = (String) pageContext.getSession().getAttribute(Attribute.LOCALE.getAttribute());
-        if (currentLocale == null){
-            currentLocale = Language.RU_RU.getLanguage();
+        String currentLocale = (String) pageContext.getSession().getAttribute(Attribute.LOCALE);
+        if (currentLocale == null) {
+            currentLocale = Language.RU_RU;
         }
-        if (currentLocale.equals(Language.EN_US.getLanguage())) {
-            return ResourceManager.getResource(key, Language.EN_US.getLanguage());
+        if (currentLocale.equals(Language.EN_US)) {
+            return ResourceManager.getResource(key, Language.EN_US);
         } else {
-            return ResourceManager.getResource(key, Language.RU_RU.getLanguage());
+            return ResourceManager.getResource(key, Language.RU_RU);
         }
     }
 

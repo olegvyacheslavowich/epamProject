@@ -1,46 +1,78 @@
 package command.impl;
 
-import com.sun.istack.internal.logging.Logger;
-import executor.impl.login.impl.BuildLoginExecutor;
-import executor.impl.login.impl.ReadLoginExecutor;
-import executor.impl.login.impl.ValidateLoginExecutor;
 import command.ActionCommand;
 import constant.Attribute;
+import constant.Key;
 import constant.Page;
-import exception.*;
+import constant.Parameter;
+import entity.Account;
+import entity.Admin;
+import entity.User;
+import exception.DataBaseConnectionException;
+import exception.ServiceException;
+import exception.ValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import util.Language;
+import util.ResourceManager;
+import service.AccountService;
+import service.AdminService;
+import service.UserService;
+import validation.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by 20_ok on 20.03.2017.
- */
 public class LoginCommand implements ActionCommand {
 
-    private Logger logger = Logger.getLogger(LoginCommand.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(LoginCommand.class);
 
     @Override
     public String execute(HttpServletRequest rq) {
 
-        String page;
-
+        String page = Page.LOGIN;
         HttpSession session = rq.getSession();
+        UserService userService = new UserService();
+        AccountService accountService = new AccountService();
+        AdminService adminService = new AdminService();
 
-        ReadLoginExecutor read = new ReadLoginExecutor(rq, session);
-        ValidateLoginExecutor validate = new ValidateLoginExecutor(rq, session);
-        BuildLoginExecutor build = new BuildLoginExecutor(rq, session);
+        if (Validator.isEmpty(rq.getParameter(Parameter.LOGIN))) {
+            rq.setAttribute(Attribute.EXCEPTION, ResourceManager.getResource(Key.EX_ENTER_LOGIN, Language.getCurrentLanguage(session)));
+            logger.info("Login page error :" + ResourceManager.getResource(Key.EX_ENTER_LOGIN, Language.getCurrentLanguage(session)));
+            return page;
+        } else if (Validator.isEmpty(rq.getParameter(Parameter.PASSWORD))) {
+            rq.setAttribute(Attribute.EXCEPTION, ResourceManager.getResource(Key.EX_ENTER_PASSWORD, Language.getCurrentLanguage(session)));
+            logger.info("Login page error :" + ResourceManager.getResource(Key.EX_ENTER_PASSWORD, Language.getCurrentLanguage(session)));
+            return page;
+        }
+
+        String password = rq.getParameter(Parameter.PASSWORD);
+        String login = rq.getParameter(Parameter.LOGIN);
 
         try {
-            read.setNext(validate);
-            validate.setNext(build);
-            page = read.execute(null, null);
-        } catch (EmptyFieldException | IncorrectDataException | NoCreditCardsException
-                | NoFlightsException | NoToursException | WrongAccountException e) {
-            rq.setAttribute(Attribute.EXCEPTION.getAttribute(), e.getMessage());
-            page = Page.LOGIN.getPage();
-            logger.info(e.getMessage());
+            Account account = accountService.checkAccount(login, password);
+            logger.info("Account was checked");
+            User user = userService.readUserByAccount(account);
+            logger.info("User " + user.getFullName() + " was came in ");
+            Admin admin = new Admin(account);
+            admin = adminService.readByLogin(admin);
+            session.setAttribute(Attribute.USER, user);
+            session.setAttribute(Attribute.ADMIN, admin);
+            session.removeAttribute(Attribute.TOURS);
+            page = Page.INDEX;
+        } catch (ServiceException e) {
+            rq.setAttribute(Attribute.EXCEPTION, ResourceManager.getResource(e.getMessage(), Language.getCurrentLanguage(session)));
+            logger.info("Login page error :" + ResourceManager.getResource(e.getMessage(), Language.getCurrentLanguage(session)));
+            return page;
+        } catch (ValidationException e) {
+            rq.setAttribute(Attribute.EXCEPTION, ResourceManager.getResource(e.getMessage(), Language.getCurrentLanguage(session)));
+            logger.info("Login page error :" + ResourceManager.getResource(e.getMessage(), Language.getCurrentLanguage(session)));
+            return page;
+        } catch (DataBaseConnectionException e) {
+            logger.info("Login page error :", e);
+            return page;
         }
+
         return page;
     }
 

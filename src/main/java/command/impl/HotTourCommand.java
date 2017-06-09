@@ -1,44 +1,71 @@
 package command.impl;
 
-import com.sun.istack.internal.logging.Logger;
 import command.ActionCommand;
 import constant.Attribute;
+import constant.Key;
 import constant.Page;
+import constant.Parameter;
 import entity.HotTour;
-import exception.EmptyFieldException;
-import executor.impl.hottour.impl.BuildHotTourExecutor;
-import executor.impl.hottour.impl.ReadHotTourExecutor;
-import executor.impl.hottour.impl.ValidateHotTourExecutor;
+import entity.Tour;
+import exception.DataBaseConnectionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import util.Language;
+import util.ResourceManager;
+import service.HotTourService;
+import service.StatisticService;
+import service.TourService;
+import validation.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class HotTourCommand implements ActionCommand {
 
-    private Logger logger = Logger.getLogger(HotTourCommand.class);
+    private static final double DISCOUNT = 0.20;
 
+    private static final Logger logger = LoggerFactory.getLogger(FlightCommand.class);
 
     @Override
     public String execute(HttpServletRequest rq) {
 
-        String page;
+        String page = Page.ADMIN;
         HttpSession session = rq.getSession();
+        TourService tourService = new TourService();
+        HotTourService hotTourService = new HotTourService();
+        StatisticService statisticService = new StatisticService();
 
-        ReadHotTourExecutor read = new ReadHotTourExecutor(rq, session);
-        ValidateHotTourExecutor validate = new ValidateHotTourExecutor(rq, session);
-        BuildHotTourExecutor build = new BuildHotTourExecutor(rq, session);
+        if (Validator.isEmpty(rq.getParameter(Parameter.TOUR_ID))) {
+            rq.setAttribute(Attribute.EXCEPTION, ResourceManager.getResource(Key.EX_SELECT_TOUR, Language.getCurrentLanguage(session)));
+            logger.info("Admin page error :" + ResourceManager.getResource(Key.EX_SELECT_TOUR, Language.getCurrentLanguage(session)));
+            return page;
+        }
 
-        read.setNext(validate);
-        validate.setNext(build);
+        int tourId = Integer.parseInt(rq.getParameter(Parameter.TOUR_ID));
 
         try {
-            page = read.execute(null);
-        } catch (EmptyFieldException e) {
-            rq.setAttribute(Attribute.EXCEPTION.getAttribute(), e.getMessage());
-            page = Page.INDEX.getPage();
-            logger.info(e.getMessage());
+            Tour tour = tourService.read(tourId);
+            tour.setPrice(getHotPrice(tour));
+            HotTour hotTour = new HotTour();
+            hotTour.setTour(tour);
+            tourService.update(tour);
+            hotTourService.create(hotTour);
+            logger.info("Hot tour was created");
+            rq.setAttribute(Attribute.TOURS, tourService.readAll());
+            rq.setAttribute(Attribute.STATISTIC, statisticService.getStatistic());
+        } catch (DataBaseConnectionException e) {
+            logger.info("Admin page error ", e);
+            return page;
         }
 
         return page;
     }
+
+    private int getHotPrice(Tour tour) {
+
+        int currentPrice = tour.getPrice();
+        return (int) (currentPrice - currentPrice * DISCOUNT);
+    }
+
+
 }

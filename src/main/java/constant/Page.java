@@ -3,25 +3,18 @@ package constant;
 /**
  * Created by 20_ok on 22.03.2017.
  */
-public enum Page {
+public final class Page {
 
-    INDEX("/jsp/index.jsp"),
-    LOGIN("/jsp/login.jsp"),
-    REGISTRATION("/jsp/registration.jsp"),
-    TOURS("/jsp/tours.jsp"),
-    FLIGHT("/jsp/flight.jsp"),
-    PAYMENT("/jsp/payment.jsp"),
-    USER("/jsp/user.jsp"),
-    ADMIN("/jsp/admin.jsp"),
-    CARD("/jsp/card.jsp");
+    public static String INDEX = "/jsp/index.jsp";
+    public static String LOGIN = "/jsp/login.jsp";
+    public static String REGISTRATION = "/jsp/registration.jsp";
+    public static String TOURS = "/jsp/tours.jsp";
+    public static String FLIGHT = "/jsp/flight.jsp";
+    public static String PAYMENT = "/jsp/payment.jsp";
+    public static String USER = "/jsp/user.jsp";
+    public static String ADMIN = "/jsp/admin.jsp";
+    public static String CARD = "/jsp/card.jsp";
 
-    Page(String page) {
-        this.page = page;
-    }
-
-    String page;
-
-    public String getPage() {
-        return page;
+    private Page() {
     }
 }

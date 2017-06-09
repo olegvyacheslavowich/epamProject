@@ -1,45 +1,43 @@
 package daolayer.impl;
 
-import constant.Num;
-import daolayer.DAO;
+import constant.Number;
+import daolayer.Dao;
 import entity.CreditCard;
-import service.Query;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CreditCardDao extends DAO<CreditCard, Integer> {
+public class CreditCardDao extends Dao<CreditCard, Integer> {
 
 
-    private static final Query CREATE = new Query("" +
+    private static final String CREATE =
             "INSERT INTO " +
-            "credit_card(card_type_id, owner_name, number, cvv_number, date)" +
-            "VALUES " +
-            " (?,?,?,?,?)");
+                    "credit_card(card_type_id, owner_name, number, cvv_number, date)" +
+                    "VALUES " +
+                    " (?,?,?,?,?)";
 
     @Override
     public Integer create(CreditCard entity) {
 
-        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(Num.FIRST.getNum(), entity.getCardType().getId());
-            ps.setString(Num.SECOND.getNum(), entity.getOwnerName());
-            ps.setLong(Num.THIRD.getNum(), entity.getNumber());
-            ps.setInt(Num.FOURTH.getNum(), entity.getCvvNumber());
-            ps.setDate(Num.FIFTH.getNum(), entity.getDate());
+        try (PreparedStatement ps = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(Number.FIRST, entity.getCardType().getId());
+            ps.setString(Number.SECOND, entity.getOwnerName());
+            ps.setLong(Number.THIRD, entity.getNumber());
+            ps.setInt(Number.FOURTH, entity.getCvvNumber());
+            ps.setDate(Number.FIFTH, entity.getDate());
             ps.execute();
             rs = ps.getGeneratedKeys();
             rs.next();
-            result = rs.getInt(Num.FIRST.getNum());
+            result = rs.getInt(Number.FIRST);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return result;
 
@@ -64,4 +62,5 @@ public class CreditCardDao extends DAO<CreditCard, Integer> {
     public List<CreditCard> readAll() {
         return null;
     }
+
 }

@@ -17,11 +17,11 @@ public class LogoutCommand implements ActionCommand {
         return logout(rq);
     }
 
-    private String logout(HttpServletRequest rq){
+    private String logout(HttpServletRequest rq) {
 
         HttpSession session = rq.getSession();
         session.invalidate();
 
-        return Page.INDEX.getPage();
+        return Page.INDEX;
     }
 }

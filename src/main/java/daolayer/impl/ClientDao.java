@@ -1,42 +1,40 @@
 package daolayer.impl;
 
-import constant.Num;
-import daolayer.DAO;
+import constant.Number;
+import daolayer.Dao;
 import entity.Client;
-import service.Query;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ClientDao extends DAO<Client, Integer> {
+public class ClientDao extends Dao<Client, Integer> {
 
-    private static final Query CREATE = new Query("INSERT INTO CLIENT(FULL_NAME, PAPER, DOCUMENT_NUM, PHONE, BIRTHDAY, EMAIL) VALUES (?,?,?,?,?,?)");
-    private static final Query DELETE = new Query("DELETE FROM client WHERE client_id = ?");
+    private static final String CREATE = "INSERT INTO CLIENT(FULL_NAME, PAPER, DOCUMENT_NUM, PHONE, BIRTHDAY, EMAIL) VALUES (?,?,?,?,?,?)";
+    private static final String DELETE = "DELETE FROM client WHERE client_id = ?";
 
     @Override
     public Integer create(Client entity) {
 
-        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setString(Num.FIRST.getNum(), entity.getFullName());
-            ps.setString(Num.SECOND.getNum(), entity.getPaper());
-            ps.setLong(Num.THIRD.getNum(), entity.getDocumentNum());
-            ps.setString(Num.FOURTH.getNum(), entity.getPhone());
-            ps.setDate(Num.FIFTH.getNum(), entity.getBirthday());
-            ps.setString(Num.SIXTH.getNum(), entity.getEmail());
+        try (PreparedStatement ps = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(Number.FIRST, entity.getFullName());
+            ps.setString(Number.SECOND, entity.getPaper());
+            ps.setLong(Number.THIRD, entity.getDocumentNum());
+            ps.setString(Number.FOURTH, entity.getPhone());
+            ps.setDate(Number.FIFTH, entity.getBirthday());
+            ps.setString(Number.SIXTH, entity.getEmail());
             ps.execute();
             rs = ps.getGeneratedKeys();
             rs.next();
-            result = rs.getInt(Num.FIRST.getNum());
+            result = rs.getInt(Number.FIRST);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return result;
     }
@@ -54,15 +52,13 @@ public class ClientDao extends DAO<Client, Integer> {
     @Override
     public boolean delete(Client entity) {
 
-        Connection connection = getConnection();
         boolean result = false;
-        try (PreparedStatement ps = connection.prepareStatement(DELETE.getQuery())) {
-            ps.setInt(Num.FIRST.getNum(), entity.getId());
+        try (PreparedStatement ps = connection.prepareStatement(DELETE)) {
+            ps.setInt(Number.FIRST, entity.getId());
             result = ps.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(connection);
+            logger.info(e.getMessage());
+
         }
         return result;
     }

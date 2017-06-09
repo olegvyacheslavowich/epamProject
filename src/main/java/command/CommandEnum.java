@@ -47,12 +47,6 @@ public enum CommandEnum {
         }
     },
 
-    PLAINS {
-        {
-            command = new FlightCommand();
-        }
-    },
-
     FLIGHT {
         {
             command = new FlightCommand();

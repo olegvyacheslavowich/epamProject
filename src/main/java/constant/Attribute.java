@@ -3,51 +3,34 @@ package constant;
 /**
  * Created by 20_ok on 01.04.2017.
  */
-public enum Attribute {
+public final class Attribute {
 
-    LOGIN("login"),
-    PASSWORD("password"),
-    LOCALE("locale"),
-    EX_INCORRECT_LOGIN_PASS("incorrectLoginOrPassword"),
-    EX_DIFFERENT_PASS(""),
-    EXCEPTION("exception"),
-    TOUR("tour"),
-    TOURS("tours"),
-    DEPARTURE_CITY("departureCity"),
-    ARRIVAL_CITY("arrivalCity"),
-    COUNTRY("country"),
-    PLANE("plane"),
-    HOTEL_STARS("hotelStars"),
-    ADULT_NUMBER("adultNumber"),
-    ADULTS("adults"),
-    CHILDREN_NUMBER("childrenNumber"),
-    HOTELS("hotels"),
-    ARRIVAL_TIME("arrivalTime"),
-    DATE("date"),
-    FLIGHT("flight"),
-    FLIGHT_TO("flightTo"),
-    FLIGHT_FROM("flightFrom"),
-    VOUCHER("voucher"),
-    CLIENTS("clients"),
-    MONEYS("moneys"),
-    ACCOUNT("account"),
-    USER("user"),
-    MONEY_ID("moneyId"),
-    FULL_NAME("fullName1"),
-    ORDERS("orders"),
-    ADMIN("admin"),
-    HOT_TOURS("hotToursNumber"),
-    ALL_TOURS("allTours"),
+    public static final String LOGIN = "login";
+    public static final String PASSWORD = "password";
+    public static final String LOCALE = "locale";
+    public static final String EXCEPTION = "exception";
+    public static final String TOUR = "tour";
+    public static final String TOURS = "tours";
+    public static final String DEPARTURE_CITY = "departureCity";
+    public static final String ARRIVAL_CITY = "arrivalCity";
+    public static final String COUNTRY = "country";
+    public static final String HOTEL_STARS = "hotelStars";
+    public static final String ADULT_NUMBER = "adultNumber";
+    public static final String CHILDREN_NUMBER = "childrenNumber";
+    public static final String DATE = "date";
+    public static final String FLIGHT_TO = "flightTo";
+    public static final String FLIGHT_FROM = "flightFrom";
+    public static final String VOUCHER = "voucher";
+    public static final String CLIENTS = "clients";
+    public static final String MONEYS = "moneys";
+    public static final String USER = "user";
+    public static final String ORDERS = "orders";
+    public static final String ADMIN = "admin";
+    public static final String HOT_TOURS = "hotToursNumber";
+    public static final String ALL_TOURS = "allTours";
+    public static final String SOLD = "sold";
+    public static final String STATISTIC = "statistic";
 
-    SOLD("sold");
-
-    String attribute;
-
-    Attribute(String attribute) {
-        this.attribute = attribute;
-    }
-
-    public String getAttribute() {
-        return attribute;
+    private Attribute() {
     }
 }

@@ -23,7 +23,7 @@
 
         <select name="country" class="countries1">
             <option value="Любая"><l:localization key="country.any_country"/></option>
-            <option value="Турция"><l:localization key="label.turkey"/></option>
+            <option value="Турция">Турция</option>
             <option value="Россия">Россия</option>
             <option value="Казахстан">Казахстан</option>
             <option value="Украина">Украина</option>

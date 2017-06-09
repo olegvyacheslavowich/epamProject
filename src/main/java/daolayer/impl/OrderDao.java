@@ -1,19 +1,21 @@
 package daolayer.impl;
 
-import constant.Num;
-import daolayer.DAO;
+import constant.Number;
+import daolayer.Dao;
 import entity.*;
-import service.Query;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class OrderDao extends DAO<Order, Integer> {
+public class OrderDao extends Dao<Order, Integer> {
 
-    private static final Query CREATE = new Query("INSERT INTO ORDERS (CLIENT_ID, VOUCHER_ID, LOGIN_ID, MONEY_ID) VALUES (?,?,?,?)");
-    private static final Query READ_ALL_BY_ACCOUNT_ID = new Query("SELECT\n" +
+    private static final String CREATE = "INSERT INTO ORDERS (CLIENT_ID, VOUCHER_ID, LOGIN_ID, MONEY_ID) VALUES (?,?,?,?)";
+    private static final String READ_ALL_BY_ACCOUNT_ID = "SELECT\n" +
             "  ORDERS.ORDER_ID,\n" +
             "  CLIENT.CLIENT_ID,\n" +
             "  CLIENT.FULL_NAME,\n" +
@@ -57,9 +59,9 @@ public class OrderDao extends DAO<Order, Integer> {
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN CITIES AS DEPARTURE_CITY ON PLANE_TO.DEPARTURE_CITY_ID = DEPARTURE_CITY.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.COUNTRY_ID = COUNTRIES.COUNTRY_ID\n" +
-            "WHERE ACCOUNT.LOGIN = ?");
+            "WHERE ACCOUNT.LOGIN = ?";
 
-    private static final Query READ_ALL = new Query("SELECT\n" +
+    private static final String READ_ALL = "SELECT\n" +
             "  ORDERS.ORDER_ID,\n" +
             "  CLIENT.CLIENT_ID,\n" +
             "  CLIENT.FULL_NAME,\n" +
@@ -102,9 +104,9 @@ public class OrderDao extends DAO<Order, Integer> {
             "  INNER JOIN PLANE AS PLANE_FROM ON FLIGHT_FROM.PLANE_ID = PLANE_FROM.NAME\n" +
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN CITIES AS DEPARTURE_CITY ON PLANE_TO.DEPARTURE_CITY_ID = DEPARTURE_CITY.CITY_ID\n" +
-            "  INNER JOIN COUNTRIES ON CITIES.COUNTRY_ID = COUNTRIES.COUNTRY_ID");
+            "  INNER JOIN COUNTRIES ON CITIES.COUNTRY_ID = COUNTRIES.COUNTRY_ID";
 
-    private static final Query READ = new Query("SELECT\n" +
+    private static final String READ = "SELECT\n" +
             "  ORDERS.ORDER_ID,\n" +
             "  CLIENT.CLIENT_ID,\n" +
             "  CLIENT.FULL_NAME,\n" +
@@ -148,29 +150,29 @@ public class OrderDao extends DAO<Order, Integer> {
             "  INNER JOIN CITIES ON TOUR.CITY_ID = CITIES.CITY_ID\n" +
             "  INNER JOIN CITIES AS DEPARTURE_CITY ON PLANE_TO.DEPARTURE_CITY_ID = DEPARTURE_CITY.CITY_ID\n" +
             "  INNER JOIN COUNTRIES ON CITIES.COUNTRY_ID = COUNTRIES.COUNTRY_ID\n" +
-            "WHERE ORDERS.ORDER_ID = ?");
+            "WHERE ORDERS.ORDER_ID = ?";
 
-    private static final Query DELETE = new Query("DELETE FROM orders WHERE order_id = ?");
+    private static final String DELETE = "DELETE FROM orders WHERE order_id = ?";
 
     @Override
     public Integer create(Order entity) {
 
-        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(Num.FIRST.getNum(), entity.getClient().getId());
-            ps.setInt(Num.SECOND.getNum(), entity.getVoucher().getId());
-            ps.setString(Num.THIRD.getNum(), entity.getAccount().getLogin());
-            ps.setInt(Num.FOURTH.getNum(), entity.getMoney().getId());
+        try (PreparedStatement ps = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(Number.FIRST, entity.getClient().getId());
+            ps.setInt(Number.SECOND, entity.getVoucher().getId());
+            ps.setString(Number.THIRD, entity.getAccount().getLogin());
+            ps.setInt(Number.FOURTH, entity.getMoney().getId());
             ps.execute();
             rs = ps.getGeneratedKeys();
             rs.next();
-            result = rs.getInt(Num.FIRST.getNum());
+            result = rs.getInt(Number.FIRST);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return result;
     }
@@ -178,75 +180,17 @@ public class OrderDao extends DAO<Order, Integer> {
     @Override
     public Order read(Integer id) {
 
-        Connection connection = getConnection();
         Order order = null;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(READ.getQuery())) {
-            ps.setInt(Num.FIRST.getNum(), id);
+        try (PreparedStatement ps = connection.prepareStatement(READ)) {
+            ps.setInt(Number.FIRST, id);
             rs = ps.executeQuery();
-            while (rs.next()) {
-                order = new Order();
-                Voucher voucher = new Voucher();
-                Client client = new Client();
-                Tour tour = new Tour();
-                Hotel hotel = new Hotel();
-                Flight flightTo = new Flight();
-                Flight flightFrom = new Flight();
-                Plane planeTo = new Plane();
-                Plane planeFrom = new Plane();
-                City city = new City();
-                City departureCity = new City();
-                Country country = new Country();
-                Money money = new Money();
-
-                order.setId(rs.getInt(Num.FIRST.getNum()));
-                client.setId(rs.getInt(Num.SECOND.getNum()));
-                client.setFullName(rs.getString(Num.THIRD.getNum()));
-                client.setPaper(rs.getString(Num.FOURTH.getNum()));
-                client.setDocumentNum(rs.getInt(Num.FIFTH.getNum()));
-                client.setPhone(rs.getString(Num.SIXTH.getNum()));
-                client.setBirthday(rs.getDate(Num.SEVENTH.getNum()));
-                client.setEmail(rs.getString(Num.EIGHTH.getNum()));
-                voucher.setId(rs.getInt(Num.NINTH.getNum()));
-                voucher.setClientNumber(rs.getInt(Num.TENTH.getNum()));
-                voucher.setPrice(rs.getInt(Num.ELEVENTH.getNum()));
-                flightTo.setDate(rs.getDate(Num.TWELFTH.getNum()));
-                planeTo.setName(rs.getString(Num.THIRTEENTH.getNum()));
-                planeTo.setDepartureTime(rs.getTime(Num.FOURTEENTH.getNum()));
-                flightFrom.setDate(rs.getDate(Num.FIFTEENTH.getNum()));
-                planeFrom.setName(rs.getString(Num.SIXTEENTH.getNum()));
-                planeFrom.setDepartureTime(rs.getTime(Num.SEVENTEENTH.getNum()));
-                tour.setId(rs.getInt(Num.TWENTY_EIGHTH.getNum()));
-                tour.setDescription(rs.getString(Num.EIGHTEENTH.getNum()));
-                tour.setDays(rs.getInt(Num.NINETEENTH.getNum()));
-                tour.setPrice(rs.getInt(Num.TWENTIETH.getNum()));
-                hotel.setName(rs.getString(Num.TWENTY_FIRST.getNum()));
-                hotel.setDescription(rs.getString(Num.TWENTY_SECOND.getNum()));
-                hotel.setStarsNumber(rs.getInt(Num.TWENTY_THIRD.getNum()));
-                city.setName(rs.getString(Num.TWENTY_FOURTH.getNum()));
-                country.setName(rs.getString(Num.TWENTY_FIFTH.getNum()));
-                departureCity.setName(rs.getString(Num.TWENTY_SIXTH.getNum()));
-                money.setId(rs.getInt(Num.TWENTY_SEVENTH.getNum()));
-                flightTo.setId(rs.getInt(Num.TWENTY_NINTH.getNum()));
-                flightFrom.setId(rs.getInt(Num.THIRTIETH.getNum()));
-
-                planeTo.setDepartureCity(departureCity);
-                city.setCountry(country);
-                tour.setCity(city);
-                tour.setHotel(hotel);
-                voucher.setTour(tour);
-                flightTo.setPlane(planeTo);
-                flightFrom.setPlane(planeFrom);
-                voucher.setFlightTo(flightTo);
-                voucher.setFlightFrom(flightFrom);
-                order.setClient(client);
-                order.setVoucher(voucher);
-                order.setMoney(money);
-            }
+            order = setOrder(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
 
         return order;
@@ -260,16 +204,13 @@ public class OrderDao extends DAO<Order, Integer> {
     @Override
     public boolean delete(Order entity) {
 
-        Connection connection = getConnection();
-
         boolean result = false;
-        try (PreparedStatement ps = connection.prepareStatement(DELETE.getQuery())) {
-            ps.setInt(Num.FIRST.getNum(), entity.getId());
+        try (PreparedStatement ps = connection.prepareStatement(DELETE)) {
+            ps.setInt(Number.FIRST, entity.getId());
             result = ps.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(connection);
+            logger.info(e.getMessage());
+
         }
         return result;
     }
@@ -277,14 +218,14 @@ public class OrderDao extends DAO<Order, Integer> {
     @Override
     public List<Order> readAll() {
 
-        Connection connection = getConnection();
-        List<Order> orders = new ArrayList<>();
+        List<Order> orders = null;
         ResultSet rs = null;
         try (Statement st = connection.createStatement()) {
-            rs = st.executeQuery(READ_ALL.getQuery());
-            setOrder(orders, rs);
+            rs = st.executeQuery(READ_ALL);
+            orders = setOrders(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
             close(rs);
         }
@@ -292,26 +233,26 @@ public class OrderDao extends DAO<Order, Integer> {
         return orders;
     }
 
-
     public List<Order> readAllByAccount(Account account) {
 
-        Connection connection = getConnection();
-        List<Order> orders = new ArrayList<>();
+        List<Order> orders = null;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(READ_ALL_BY_ACCOUNT_ID.getQuery())) {
-            ps.setString(Num.FIRST.getNum(), account.getLogin());
+        try (PreparedStatement ps = connection.prepareStatement(READ_ALL_BY_ACCOUNT_ID)) {
+            ps.setString(Number.FIRST, account.getLogin());
             rs = ps.executeQuery();
-            setOrder(orders, rs);
+            orders = setOrders(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(connection, rs);
-        }
+            logger.info(e.getMessage());
 
+        } finally {
+            close(rs);
+        }
         return orders;
     }
 
-    private void setOrder(List<Order> orders, ResultSet rs) throws SQLException {
+    private List<Order> setOrders(ResultSet rs) throws SQLException {
+
+        List<Order> orders = new ArrayList<>();
         while (rs.next()) {
             Order order = new Order();
             Voucher voucher = new Voucher();
@@ -327,34 +268,34 @@ public class OrderDao extends DAO<Order, Integer> {
             Country country = new Country();
             Money money = new Money();
 
-            order.setId(rs.getInt(Num.FIRST.getNum()));
-            client.setId(rs.getInt(Num.SECOND.getNum()));
-            client.setFullName(rs.getString(Num.THIRD.getNum()));
-            client.setPaper(rs.getString(Num.FOURTH.getNum()));
-            client.setDocumentNum(rs.getInt(Num.FIFTH.getNum()));
-            client.setPhone(rs.getString(Num.SIXTH.getNum()));
-            client.setBirthday(rs.getDate(Num.SEVENTH.getNum()));
-            client.setEmail(rs.getString(Num.EIGHTH.getNum()));
-            voucher.setId(rs.getInt(Num.NINTH.getNum()));
-            voucher.setClientNumber(rs.getInt(Num.TENTH.getNum()));
-            voucher.setPrice(rs.getInt(Num.ELEVENTH.getNum()));
-            flightTo.setDate(rs.getDate(Num.TWELFTH.getNum()));
-            planeTo.setName(rs.getString(Num.THIRTEENTH.getNum()));
-            planeTo.setDepartureTime(rs.getTime(Num.FOURTEENTH.getNum()));
-            flightFrom.setDate(rs.getDate(Num.FIFTEENTH.getNum()));
-            planeFrom.setName(rs.getString(Num.SIXTEENTH.getNum()));
-            planeFrom.setDepartureTime(rs.getTime(Num.SEVENTEENTH.getNum()));
-            tour.setId(rs.getInt(Num.TWENTY_EIGHTH.getNum()));
-            tour.setDescription(rs.getString(Num.EIGHTEENTH.getNum()));
-            tour.setDays(rs.getInt(Num.NINETEENTH.getNum()));
-            tour.setPrice(rs.getInt(Num.TWENTIETH.getNum()));
-            hotel.setName(rs.getString(Num.TWENTY_FIRST.getNum()));
-            hotel.setDescription(rs.getString(Num.TWENTY_SECOND.getNum()));
-            hotel.setStarsNumber(rs.getInt(Num.TWENTY_THIRD.getNum()));
-            city.setName(rs.getString(Num.TWENTY_FOURTH.getNum()));
-            country.setName(rs.getString(Num.TWENTY_FIFTH.getNum()));
-            departureCity.setName(rs.getString(Num.TWENTY_SIXTH.getNum()));
-            money.setId(rs.getInt(Num.TWENTY_SEVENTH.getNum()));
+            order.setId(rs.getInt(Number.FIRST));
+            client.setId(rs.getInt(Number.SECOND));
+            client.setFullName(rs.getString(Number.THIRD));
+            client.setPaper(rs.getString(Number.FOURTH));
+            client.setDocumentNum(rs.getInt(Number.FIFTH));
+            client.setPhone(rs.getString(Number.SIXTH));
+            client.setBirthday(rs.getDate(Number.SEVENTH));
+            client.setEmail(rs.getString(Number.EIGHTH));
+            voucher.setId(rs.getInt(Number.NINTH));
+            voucher.setClientNumber(rs.getInt(Number.TENTH));
+            voucher.setPrice(rs.getInt(Number.ELEVENTH));
+            flightTo.setDate(rs.getDate(Number.TWELFTH));
+            planeTo.setName(rs.getString(Number.THIRTEENTH));
+            planeTo.setDepartureTime(rs.getTime(Number.FOURTEENTH));
+            flightFrom.setDate(rs.getDate(Number.FIFTEENTH));
+            planeFrom.setName(rs.getString(Number.SIXTEENTH));
+            planeFrom.setDepartureTime(rs.getTime(Number.SEVENTEENTH));
+            tour.setId(rs.getInt(Number.TWENTY_EIGHTH));
+            tour.setDescription(rs.getString(Number.EIGHTEENTH));
+            tour.setDays(rs.getInt(Number.NINETEENTH));
+            tour.setPrice(rs.getInt(Number.TWENTIETH));
+            hotel.setName(rs.getString(Number.TWENTY_FIRST));
+            hotel.setDescription(rs.getString(Number.TWENTY_SECOND));
+            hotel.setStarsNumber(rs.getInt(Number.TWENTY_THIRD));
+            city.setName(rs.getString(Number.TWENTY_FOURTH));
+            country.setName(rs.getString(Number.TWENTY_FIFTH));
+            departureCity.setName(rs.getString(Number.TWENTY_SIXTH));
+            money.setId(rs.getInt(Number.TWENTY_SEVENTH));
 
             planeTo.setDepartureCity(departureCity);
             city.setCountry(country);
@@ -371,6 +312,72 @@ public class OrderDao extends DAO<Order, Integer> {
 
             orders.add(order);
         }
+        return orders;
+    }
+
+    private Order setOrder(ResultSet rs) throws SQLException {
+        Order order = null;
+        while (rs.next()) {
+            order = new Order();
+            Voucher voucher = new Voucher();
+            Client client = new Client();
+            Tour tour = new Tour();
+            Hotel hotel = new Hotel();
+            Flight flightTo = new Flight();
+            Flight flightFrom = new Flight();
+            Plane planeTo = new Plane();
+            Plane planeFrom = new Plane();
+            City city = new City();
+            City departureCity = new City();
+            Country country = new Country();
+            Money money = new Money();
+
+            order.setId(rs.getInt(Number.FIRST));
+            client.setId(rs.getInt(Number.SECOND));
+            client.setFullName(rs.getString(Number.THIRD));
+            client.setPaper(rs.getString(Number.FOURTH));
+            client.setDocumentNum(rs.getInt(Number.FIFTH));
+            client.setPhone(rs.getString(Number.SIXTH));
+            client.setBirthday(rs.getDate(Number.SEVENTH));
+            client.setEmail(rs.getString(Number.EIGHTH));
+            voucher.setId(rs.getInt(Number.NINTH));
+            voucher.setClientNumber(rs.getInt(Number.TENTH));
+            voucher.setPrice(rs.getInt(Number.ELEVENTH));
+            flightTo.setDate(rs.getDate(Number.TWELFTH));
+            planeTo.setName(rs.getString(Number.THIRTEENTH));
+            planeTo.setDepartureTime(rs.getTime(Number.FOURTEENTH));
+            flightFrom.setDate(rs.getDate(Number.FIFTEENTH));
+            planeFrom.setName(rs.getString(Number.SIXTEENTH));
+            planeFrom.setDepartureTime(rs.getTime(Number.SEVENTEENTH));
+            tour.setId(rs.getInt(Number.TWENTY_EIGHTH));
+            tour.setDescription(rs.getString(Number.EIGHTEENTH));
+            tour.setDays(rs.getInt(Number.NINETEENTH));
+            tour.setPrice(rs.getInt(Number.TWENTIETH));
+            hotel.setName(rs.getString(Number.TWENTY_FIRST));
+            hotel.setDescription(rs.getString(Number.TWENTY_SECOND));
+            hotel.setStarsNumber(rs.getInt(Number.TWENTY_THIRD));
+            city.setName(rs.getString(Number.TWENTY_FOURTH));
+            country.setName(rs.getString(Number.TWENTY_FIFTH));
+            departureCity.setName(rs.getString(Number.TWENTY_SIXTH));
+            money.setId(rs.getInt(Number.TWENTY_SEVENTH));
+            flightTo.setId(rs.getInt(Number.TWENTY_NINTH));
+            flightFrom.setId(rs.getInt(Number.THIRTIETH));
+
+            planeTo.setDepartureCity(departureCity);
+            city.setCountry(country);
+            tour.setCity(city);
+            tour.setHotel(hotel);
+            voucher.setTour(tour);
+            flightTo.setPlane(planeTo);
+            flightFrom.setPlane(planeFrom);
+            voucher.setFlightTo(flightTo);
+            voucher.setFlightFrom(flightFrom);
+            order.setClient(client);
+            order.setVoucher(voucher);
+            order.setMoney(money);
+        }
+
+        return order;
     }
 
 }

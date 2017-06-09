@@ -1,7 +1,8 @@
 package dbconnection;
 
-import com.sun.istack.internal.logging.Logger;
-import command.impl.CardCommand;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +14,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class ConnectionPool {
 
-    private Logger logger = Logger.getLogger(CardCommand.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
 
     private static final int DEFAULT_CAPACITY = 10;
 
@@ -24,8 +25,10 @@ public class ConnectionPool {
     private String user;
     private String password;
 
+    private ConnectionPool() {
+    }
 
-    public ConnectionPool(String driver, String url, String user, String password) {
+    private ConnectionPool(String driver, String url, String user, String password) {
         this.driver = driver;
         this.url = url;
         this.user = user;
@@ -36,14 +39,12 @@ public class ConnectionPool {
      * Получить свободный connection
      *
      * @return connection
-     * @throws SQLException
      */
     public Connection getConnection() {
         Connection connection;
 
         if (!connections.isEmpty()) {
             connection = connections.poll();
-
             try {
                 if (connection.isClosed()) {
                     connection = getConnection();
@@ -54,7 +55,7 @@ public class ConnectionPool {
         } else {
             connection = newConnection();
         }
-
+        logger.info("Connection was added");
         return connection;
     }
 
@@ -85,8 +86,10 @@ public class ConnectionPool {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException | ClassNotFoundException e) {
-            logger.info(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            logger.info("Class did not find");
+        } catch (SQLException e) {
+            logger.info("Connection error");
         }
 
         return connection;
@@ -101,6 +104,7 @@ public class ConnectionPool {
 
         if ((connection != null) && (connections.remainingCapacity() != 0)) {
             connections.add(connection);
+            logger.info("Connection was returned to the pool");
         }
 
     }

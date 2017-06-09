@@ -1,92 +1,60 @@
 package daolayer.impl;
 
-import constant.Num;
-import daolayer.DAO;
+import constant.Number;
+import daolayer.Dao;
 import entity.City;
 import entity.Country;
 import entity.Flight;
 import entity.Plane;
-import service.Query;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FlightDao extends DAO<Flight, Integer> {
+public class FlightDao extends Dao<Flight, Integer> {
 
-    private Connection connection = getConnection();
-
-    private static final Query READ_BY_CITY_COUNTRY_DATE = new Query("" +
+    private static final String READ_BY_CITY_COUNTRY_DATE =
             "SELECT\n" +
-            "  FLIGHT.FLIGHT_ID,\n" +
-            "  PLANE.NAME,\n" +
-            "  RUS_LETTERS.NAME,\n" +
-            "  FLIGHT.DATE,\n" +
-            "  PLANE.DEPARTURE_TIME,\n" +
-            "  COUNTRIES.NAME,\n" +
-            "  ARRIVAL_CITY.NAME,\n" +
-            "  PLANE.TRAVEL_TIME\n" +
-            "FROM FLIGHT\n" +
-            "  INNER JOIN PLANE ON FLIGHT.PLANE_ID = PLANE.NAME\n" +
-            "  INNER JOIN CITIES AS RUS_LETTERS\n" +
-            "    ON PLANE.DEPARTURE_CITY_ID = RUS_LETTERS.CITY_ID\n" +
-            "  INNER JOIN CITIES AS ARRIVAL_CITY\n" +
-            "    ON PLANE.ARRIVAL_CITY_ID = ARRIVAL_CITY.CITY_ID\n" +
-            "  INNER JOIN COUNTRIES ON ARRIVAL_CITY.COUNTRY_ID = COUNTRIES.COUNTRY_ID\n" +
-            "WHERE RUS_LETTERS.NAME = ? AND\n" +
-            "  COUNTRIES.NAME = ? AND FLIGHT.DATE = ?");
+                    "  FLIGHT.FLIGHT_ID,\n" +
+                    "  PLANE.NAME,\n" +
+                    "  RUS_LETTERS.NAME,\n" +
+                    "  FLIGHT.DATE,\n" +
+                    "  PLANE.DEPARTURE_TIME,\n" +
+                    "  COUNTRIES.NAME,\n" +
+                    "  ARRIVAL_CITY.NAME,\n" +
+                    "  PLANE.TRAVEL_TIME\n" +
+                    "FROM FLIGHT\n" +
+                    "  INNER JOIN PLANE ON FLIGHT.PLANE_ID = PLANE.NAME\n" +
+                    "  INNER JOIN CITIES AS RUS_LETTERS\n" +
+                    "    ON PLANE.DEPARTURE_CITY_ID = RUS_LETTERS.CITY_ID\n" +
+                    "  INNER JOIN CITIES AS ARRIVAL_CITY\n" +
+                    "    ON PLANE.ARRIVAL_CITY_ID = ARRIVAL_CITY.CITY_ID\n" +
+                    "  INNER JOIN COUNTRIES ON ARRIVAL_CITY.COUNTRY_ID = COUNTRIES.COUNTRY_ID\n" +
+                    "WHERE RUS_LETTERS.NAME = ? AND\n" +
+                    "  COUNTRIES.NAME = ? AND FLIGHT.DATE = ?";
 
-    private static final Query READ_BY_CITIES = new Query("" +
+
+    private static final String READ_BY_CITIES_DATE =
             "SELECT\n" +
-            "  DEPARTURE_DATE,\n" +
-            "  PLANE.NAME,\n" +
-            "  RUS_LETTERS.NAME,\n" +
-            "  DEPARTURE_TIME,\n" +
-            "  ARRIVAL_CITY.NAME,\n" +
-            "  ARRIVAL_TIME " +
-            "FROM PLANE, FLIGHT\n" +
-            "  INNER JOIN CITIES AS RUS_LETTERS\n" +
-            "    ON PLANE.DEPARTURE_CITY_ID = RUS_LETTERS.CITY_ID\n" +
-            "  INNER JOIN CITIES AS ARRIVAL_CITY\n" +
-            "    ON PLANE.ARRIVAL_CITY_ID = ARRIVAL_CITY.CITY_ID\n" +
-            "WHERE PLANE.NAME = FLIGHT.PLANE_ID\n" +
-            "      AND RUS_LETTERS.NAME = ?\n" +
-            "      AND ARRIVAL_CITY.NAME = ?");
-
-    private static final Query READ_BY_CITIES_DATE = new Query("" +
-            "SELECT\n" +
-            "  FLIGHT.FLIGHT_ID,\n" +
-            "  PLANE.NAME,\n" +
-            "  RUS_LETTERS.NAME,\n" +
-            "  FLIGHT.DATE,\n" +
-            "  PLANE.DEPARTURE_TIME,\n" +
-            "  ARRIVAL_CITY.NAME,\n" +
-            "  PLANE.TRAVEL_TIME\n" +
-            "FROM FLIGHT\n" +
-            "  INNER JOIN PLANE ON FLIGHT.PLANE_ID = PLANE.NAME\n" +
-            "  INNER JOIN CITIES AS RUS_LETTERS\n" +
-            "    ON PLANE.DEPARTURE_CITY_ID = RUS_LETTERS.CITY_ID\n" +
-            "  INNER JOIN CITIES AS ARRIVAL_CITY\n" +
-            "    ON PLANE.ARRIVAL_CITY_ID = ARRIVAL_CITY.CITY_ID\n" +
-            "WHERE RUS_LETTERS.NAME = ? AND\n" +
-            "  ARRIVAL_CITY.NAME = ? AND FLIGHT.DATE = ?");
-
-    private static final Query READ = new Query("SELECT\n" +
-            "  FLIGHT.FLIGHT_ID,\n" +
-            "  PLANE.NAME,\n" +
-            "  RUS_LETTERS.NAME,\n" +
-            "  FLIGHT.DATE,\n" +
-            "  PLANE.DEPARTURE_TIME,\n" +
-            "  ARRIVAL_CITY.NAME,\n" +
-            "  PLANE.TRAVEL_TIME\n" +
-            "FROM FLIGHT\n" +
-            "  INNER JOIN PLANE ON FLIGHT.PLANE_ID = PLANE.NAME\n" +
-            "  INNER JOIN CITIES AS RUS_LETTERS\n" +
-            "    ON PLANE.DEPARTURE_CITY_ID = RUS_LETTERS.CITY_ID\n" +
-            "  INNER JOIN CITIES AS ARRIVAL_CITY\n" +
-            "    ON PLANE.ARRIVAL_CITY_ID = ARRIVAL_CITY.CITY_ID\n" +
-            "WHERE FLIGHT_ID = ?");
+                    "  FLIGHT.FLIGHT_ID,\n" +
+                    "  PLANE.NAME,\n" +
+                    "  RUS_LETTERS.NAME,\n" +
+                    "  FLIGHT.DATE,\n" +
+                    "  PLANE.DEPARTURE_TIME,\n" +
+                    "  ARRIVAL_CITY.NAME,\n" +
+                    "  PLANE.TRAVEL_TIME\n" +
+                    "FROM FLIGHT\n" +
+                    "  INNER JOIN PLANE ON FLIGHT.PLANE_ID = PLANE.NAME\n" +
+                    "  INNER JOIN CITIES AS RUS_LETTERS\n" +
+                    "    ON PLANE.DEPARTURE_CITY_ID = RUS_LETTERS.CITY_ID\n" +
+                    "  INNER JOIN CITIES AS ARRIVAL_CITY\n" +
+                    "    ON PLANE.ARRIVAL_CITY_ID = ARRIVAL_CITY.CITY_ID\n" +
+                    "WHERE RUS_LETTERS.NAME = ? AND\n" +
+                    "  ARRIVAL_CITY.NAME = ? AND FLIGHT.DATE = ?";
 
     @Override
     public Integer create(Flight entity) {
@@ -97,20 +65,18 @@ public class FlightDao extends DAO<Flight, Integer> {
     public Flight read(Integer id) {
         Flight flight = null;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(READ_BY_CITIES_DATE.getQuery())) {
-            ps.setInt(Num.FIRST.getNum(), id);
+        try (PreparedStatement ps = connection.prepareStatement(READ_BY_CITIES_DATE)) {
+            ps.setInt(Number.FIRST, id);
             rs = ps.executeQuery();
-            flight = getFlight(flight, rs);
-
-            return flight;
+            flight = getFlight(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return flight;
     }
-
 
 
     @Override
@@ -132,17 +98,18 @@ public class FlightDao extends DAO<Flight, Integer> {
 
         Flight flight = null;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(READ_BY_CITIES_DATE.getQuery())) {
-            ps.setString(Num.FIRST.getNum(), departureCityName);
-            ps.setString(Num.SECOND.getNum(), arrivalCityName);
-            ps.setDate(Num.THIRD.getNum(), date);
+        try (PreparedStatement ps = connection.prepareStatement(READ_BY_CITIES_DATE)) {
+            ps.setString(Number.FIRST, departureCityName);
+            ps.setString(Number.SECOND, arrivalCityName);
+            ps.setDate(Number.THIRD, date);
             rs = ps.executeQuery();
-            flight = getFlight(flight, rs);
+            flight = getFlight(rs);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return flight;
     }
@@ -151,10 +118,10 @@ public class FlightDao extends DAO<Flight, Integer> {
 
         List<Flight> flights = new ArrayList<>();
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(READ_BY_CITY_COUNTRY_DATE.getQuery())) {
-            ps.setString(Num.FIRST.getNum(), departureCityName);
-            ps.setString(Num.SECOND.getNum(), countryName);
-            ps.setDate(Num.THIRD.getNum(), date);
+        try (PreparedStatement ps = connection.prepareStatement(READ_BY_CITY_COUNTRY_DATE)) {
+            ps.setString(Number.FIRST, departureCityName);
+            ps.setString(Number.SECOND, countryName);
+            ps.setDate(Number.THIRD, date);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Flight flight = new Flight();
@@ -163,14 +130,14 @@ public class FlightDao extends DAO<Flight, Integer> {
                 City arrivalCity = new City();
                 Country country = new Country();
 
-                flight.setId(rs.getInt(Num.FIRST.getNum()));
-                plane.setName(rs.getString(Num.SECOND.getNum()));
-                departureCity.setName(rs.getString(Num.THIRD.getNum()));
-                flight.setDate(rs.getDate(Num.FOURTH.getNum()));
-                plane.setDepartureTime(rs.getTime(Num.FIFTH.getNum()));
-                country.setName(rs.getString(Num.SIXTH.getNum()));
-                arrivalCity.setName(rs.getString(Num.SEVENTH.getNum()));
-                plane.setTravelTime(rs.getTime(Num.EIGHTH.getNum()));
+                flight.setId(rs.getInt(Number.FIRST));
+                plane.setName(rs.getString(Number.SECOND));
+                departureCity.setName(rs.getString(Number.THIRD));
+                flight.setDate(rs.getDate(Number.FOURTH));
+                plane.setDepartureTime(rs.getTime(Number.FIFTH));
+                country.setName(rs.getString(Number.SIXTH));
+                arrivalCity.setName(rs.getString(Number.SEVENTH));
+                plane.setTravelTime(rs.getTime(Number.EIGHTH));
 
                 arrivalCity.setCountry(country);
                 plane.setDepartureCity(departureCity);
@@ -181,27 +148,29 @@ public class FlightDao extends DAO<Flight, Integer> {
 
             return flights;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
         return flights;
     }
 
-    private Flight getFlight(Flight flight, ResultSet rs) throws SQLException {
+    private Flight getFlight(ResultSet rs) throws SQLException {
+        Flight flight = null;
         while (rs.next()) {
             flight = new Flight();
             Plane plane = new Plane();
             City departureCity = new City();
             City arrivalCity = new City();
 
-            flight.setId(rs.getInt(Num.FIRST.getNum()));
-            plane.setName(rs.getString(Num.SECOND.getNum()));
-            departureCity.setName(rs.getString(Num.THIRD.getNum()));
-            flight.setDate(rs.getDate(Num.FOURTH.getNum()));
-            plane.setDepartureTime(rs.getTime(Num.FIFTH.getNum()));
-            arrivalCity.setName(rs.getString(Num.SIXTH.getNum()));
-            plane.setTravelTime(rs.getTime(Num.SEVENTH.getNum()));
+            flight.setId(rs.getInt(Number.FIRST));
+            plane.setName(rs.getString(Number.SECOND));
+            departureCity.setName(rs.getString(Number.THIRD));
+            flight.setDate(rs.getDate(Number.FOURTH));
+            plane.setDepartureTime(rs.getTime(Number.FIFTH));
+            arrivalCity.setName(rs.getString(Number.SIXTH));
+            plane.setTravelTime(rs.getTime(Number.SEVENTH));
 
             plane.setDepartureCity(departureCity);
             plane.setArrivalCity(arrivalCity);

@@ -1,20 +1,18 @@
 package daolayer.impl;
 
-import constant.Num;
-import daolayer.DAO;
+import constant.Number;
+import daolayer.Dao;
 import entity.CardType;
-import service.Query;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 
-public class CardTypeDao extends DAO<CardType, Integer> {
+public class CardTypeDao extends Dao<CardType, Integer> {
 
-    private static final Query READ = new Query("SELECT * FROM card_type WHERE CARD_TYPE.NAME = ?");
+    private static final String READ = "SELECT * FROM card_type WHERE CARD_TYPE.NAME = ?";
 
 
     @Override
@@ -42,23 +40,24 @@ public class CardTypeDao extends DAO<CardType, Integer> {
         return null;
     }
 
+
     public CardType readByType(CardType type) {
 
-        Connection connection = getConnection();
         CardType t = null;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(READ.getQuery())) {
-            ps.setString(Num.FIRST.getNum(), type.getName());
+        try (PreparedStatement ps = connection.prepareStatement(READ)) {
+            ps.setString(Number.FIRST, type.getName());
             rs = ps.executeQuery();
             while (rs.next()) {
                 t = new CardType();
-                t.setId(rs.getInt(Num.FIRST.getNum()));
-                t.setName(rs.getString(Num.SECOND.getNum()));
+                t.setId(rs.getInt(Number.FIRST));
+                t.setName(rs.getString(Number.SECOND));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
-            close(connection, rs);
+            close(rs);
         }
 
         return t;

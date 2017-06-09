@@ -16,7 +16,7 @@ public class ActionFactory {
     public ActionCommand getCommand(HttpServletRequest rq) {
 
         ActionCommand command = CommandEnum.TRANSLATOR.getCommand();
-        String commandValue = rq.getParameter(Parameter.COMMAND.getParameter());
+        String commandValue = rq.getParameter(Parameter.COMMAND);
 
         if (commandValue != null) {
             CommandEnum commandEnum = CommandEnum.valueOf(commandValue.toUpperCase());

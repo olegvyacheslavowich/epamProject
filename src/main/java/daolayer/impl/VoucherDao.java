@@ -1,44 +1,40 @@
 package daolayer.impl;
 
-import constant.Num;
-import daolayer.DAO;
-import entity.*;
-import service.Query;
+import constant.Number;
+import daolayer.Dao;
+import entity.Voucher;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by 20_ok on 08.05.2017.
- */
-public class VoucherDao extends DAO<Voucher, Integer> {
+public class VoucherDao extends Dao<Voucher, Integer> {
 
-
-    private static final Query CREATE = new Query("INSERT INTO VOUCHER(TOUR_ID,FLIGHT_TO_ID, FLIGHT_FROM_ID, CLIENT_NUMBER, PRICE) VALUES (?,?,?,?,?)");
-    private static final Query DELETE = new Query("DELETE FROM voucher WHERE voucher_id = ?");
-    private static final Query UPDATE = new Query("UPDATE voucher SET " +
-            "TOUR_ID = ?,FLIGHT_TO_ID = ?, FLIGHT_FROM_ID = ?, CLIENT_NUMBER = ?, PRICE = ? WHERE voucher_id = ?");
+    private static final String CREATE = "INSERT INTO VOUCHER(TOUR_ID,FLIGHT_TO_ID, FLIGHT_FROM_ID, CLIENT_NUMBER, PRICE) VALUES (?,?,?,?,?)";
+    private static final String DELETE = "DELETE FROM voucher WHERE voucher_id = ?";
+    private static final String UPDATE = "UPDATE voucher SET " +
+            "TOUR_ID = ?,FLIGHT_TO_ID = ?, FLIGHT_FROM_ID = ?, CLIENT_NUMBER = ?, PRICE = ? WHERE voucher_id = ?";
 
 
     @Override
     public Integer create(Voucher entity) {
 
-        Connection connection = getConnection();
         int result = -1;
         ResultSet rs = null;
-        try (PreparedStatement ps = connection.prepareStatement(CREATE.getQuery(), PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(Num.FIRST.getNum(), entity.getTour().getId());
-            ps.setInt(Num.SECOND.getNum(), entity.getFlightTo().getId());
-            ps.setInt(Num.THIRD.getNum(), entity.getFlightFrom().getId());
-            ps.setInt(Num.FOURTH.getNum(), entity.getClientNumber());
-            ps.setInt(Num.FIFTH.getNum(), entity.getPrice());
+        try (PreparedStatement ps = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(Number.FIRST, entity.getTour().getId());
+            ps.setInt(Number.SECOND, entity.getFlightTo().getId());
+            ps.setInt(Number.THIRD, entity.getFlightFrom().getId());
+            ps.setInt(Number.FOURTH, entity.getClientNumber());
+            ps.setInt(Number.FIFTH, entity.getPrice());
             ps.execute();
             rs = ps.getGeneratedKeys();
             rs.next();
-            result = rs.getInt(Num.FIRST.getNum());
+            result = rs.getInt(Number.FIRST);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         } finally {
             close(rs);
         }
@@ -53,19 +49,19 @@ public class VoucherDao extends DAO<Voucher, Integer> {
     @Override
     public boolean update(Voucher entity) {
 
-        Connection connection = getConnection();
         boolean result = false;
-        try (PreparedStatement ps = connection.prepareStatement(UPDATE.getQuery())) {
-            ps.setInt(Num.FIRST.getNum(), entity.getTour().getId());
-            ps.setInt(Num.SECOND.getNum(), entity.getFlightTo().getId());
-            ps.setInt(Num.THIRD.getNum(), entity.getFlightFrom().getId());
-            ps.setInt(Num.FOURTH.getNum(), entity.getClientNumber());
-            ps.setInt(Num.FIFTH.getNum(), entity.getPrice());
-            ps.setInt(Num.SIXTH.getNum(), entity.getId());
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE)) {
+            ps.setInt(Number.FIRST, entity.getTour().getId());
+            ps.setInt(Number.SECOND, entity.getFlightTo().getId());
+            ps.setInt(Number.THIRD, entity.getFlightFrom().getId());
+            ps.setInt(Number.FOURTH, entity.getClientNumber());
+            ps.setInt(Number.FIFTH, entity.getPrice());
+            ps.setInt(Number.SIXTH, entity.getId());
 
             result = ps.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
+
         }
         return result;
     }
@@ -73,13 +69,12 @@ public class VoucherDao extends DAO<Voucher, Integer> {
     @Override
     public boolean delete(Voucher entity) {
 
-        Connection connection = getConnection();
         boolean result = false;
-        try (PreparedStatement ps = connection.prepareStatement(DELETE.getQuery())) {
-            ps.setInt(Num.FIRST.getNum(), entity.getId());
+        try (PreparedStatement ps = connection.prepareStatement(DELETE)) {
+            ps.setInt(Number.FIRST, entity.getId());
             result = ps.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
         return result;
 
@@ -90,5 +85,6 @@ public class VoucherDao extends DAO<Voucher, Integer> {
     public List<Voucher> readAll() {
         return null;
     }
+
 
 }
